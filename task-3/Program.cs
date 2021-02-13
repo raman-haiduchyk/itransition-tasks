@@ -46,7 +46,7 @@ namespace Task_3
 
         private static bool CheckCommandLineArgs(List<string> args)
         {
-            return !(args.Count % 2 == 0 || args.GroupBy(x => x).Any(g => g.Count() > 1));
+            return !(args.Count % 2 == 0 || args.GroupBy(x => x).Any(g => g.Count() > 1) || args.Count < 3);
         }
 
         private static void ShowBytesInHex(byte[] bytes)
