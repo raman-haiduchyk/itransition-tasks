@@ -69,7 +69,7 @@ namespace Task_3
 
         private static void ShowArgsExample()
         {
-            Console.WriteLine("You input even number of arguments or duplicate arguments.\nExaple of correct arguments:");
+            Console.WriteLine("You input insufficient or even number of arguments or duplicate arguments.\nExaple of correct arguments:");
             Console.WriteLine("rock paper scissors lizard spok");
         }
 
