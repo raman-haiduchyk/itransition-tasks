@@ -1,0 +1,23 @@
+﻿@using task_4.Models
+@model IEnumerable<UserModel>
+@{
+    ViewData["Title"] = "Home Page";
+}
+<script src="~/js/site.js"></script>
+
+<table class="table">
+    <form asp-antiforgery="true" asp-controller="Home" asp-action="Action">
+        <input type="submit" name="action" value="Block" />
+        <input type="submit" name="action" value="Unblock" />
+        <input type="submit" name="action" value="Delete" />
+        <tr><th><input type="checkbox" id="checkAll"></th><th>ID</th><th>email</th><th>Is blocked</th></tr>
+        @foreach (UserModel u in Model)
+        {
+            <tr><td><input type="checkbox" class="check" name="id" value="@u.Id"></td><td>@u.Id</td><td>@u.Email</td><td>@u.Is_Blocked</td></tr>
+        }
+    </form>
+</table>
+
+
+
+
