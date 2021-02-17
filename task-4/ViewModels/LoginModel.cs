@@ -4,10 +4,10 @@ namespace task_4.ViewModels
 {
     public class LoginModel
     {
-        [Required(ErrorMessage = "Не указан Email")]
+        [Required]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Не указан пароль")]
+        [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
     }

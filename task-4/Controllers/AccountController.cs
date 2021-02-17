@@ -33,11 +33,13 @@ namespace task_4.Controllers
                 UserModel user = await _db.TestUsers.FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
                 if (user != null)
                 {
-                    await Authenticate(model.Email); // аутентификация
-
+                    await Authenticate(model.Email);
+                    user.Login_Date = DateTime.Now;
+                    _db.Update(user);
+                    await _db.SaveChangesAsync();
                     return RedirectToAction("Index", "Home");
                 }
-                ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+                ModelState.AddModelError("", "Ошибка авторизации!");
             }
             return View(model);
         }
@@ -52,10 +54,16 @@ namespace task_4.Controllers
         {
             if (ModelState.IsValid)
             {
-                UserModel user = await _db.TestUsers.FirstOrDefaultAsync(u => u.Email == model.Email);
+                UserModel user = await _db.TestUsers.FirstOrDefaultAsync(u => u.Email == model.Email || u.Name == model.Name);
                 if (user == null)
                 {
-                    _db.TestUsers.Add(new UserModel { Email = model.Email, Password = model.Password });
+                    _db.TestUsers.Add(new UserModel { 
+                        Email = model.Email,
+                        Name = model.Name,
+                        Password = model.Password,
+                        Reg_Date = DateTime.Now,
+                        Login_Date = DateTime.Now
+                    });
                     await _db.SaveChangesAsync();
 
                     await Authenticate(model.Email);
@@ -63,7 +71,7 @@ namespace task_4.Controllers
                     return RedirectToAction("Index", "Home");
                 }
                 else
-                    ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+                    ModelState.AddModelError("", "Ошибка регистрации!");
             }
             return View(model);
         }

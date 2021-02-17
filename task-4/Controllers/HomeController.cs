@@ -2,7 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using task_4.Models;
 
@@ -27,12 +30,23 @@ namespace task_4.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Action(string action, int[] id)
         {
+            const string block = "Block", unblock = "Unblock", delete = "Delete";
             switch (action)
             {
-
+                case block:
+                    await Block(id, true);
+                    break;
+                case delete:
+                    await Delete(id);
+                    break;
+                case unblock:
+                    await Block(id, false);
+                    break;
             }
+
             return RedirectToAction("Index", "Home");
         }
 
@@ -42,6 +56,20 @@ namespace task_4.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        
+        [NonAction]
+        private async Task Delete(int[] id)
+        {
+            _db.TestUsers.RemoveRange(_db.TestUsers.AsEnumerable().Where(u => id.Contains(u.Id)));
+            await _db.SaveChangesAsync();
+        }
+
+        [NonAction]
+        private async Task Block(int[] id, bool flag)
+        {
+            IEnumerable<UserModel> users = _db.TestUsers.AsEnumerable().Where(u => id.Contains(u.Id));
+            foreach (var user in users) user.Is_Blocked = flag;
+            _db.UpdateRange(users);
+            await _db.SaveChangesAsync();
+        }
     }
 }

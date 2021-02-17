@@ -4,10 +4,13 @@ namespace task_4.ViewModels
 {
     public class RegisterModel
     {
-        [Required(ErrorMessage = "Не указан Email")]
+        [Required]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Не указан пароль")]
+        [Required]
+        public string Name { get; set; }
+
+        [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 

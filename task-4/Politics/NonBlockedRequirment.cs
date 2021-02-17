@@ -12,7 +12,8 @@ namespace task_4.Politics
     {
         public async Task<bool> Pass(AppDbContext db, string email)
         {
-            return await Task.FromResult(!(await db.TestUsers.FirstOrDefaultAsync(u => u.Email == email)).Is_Blocked);
+            UserModel user = await db.TestUsers.FirstOrDefaultAsync(u => u.Email == email);
+            return await Task.FromResult(!(user?.Is_Blocked ?? true));
         }
 
     }
