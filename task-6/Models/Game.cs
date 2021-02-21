@@ -26,14 +26,10 @@ namespace task_6.Models
             Player1.Piece = "X";
             Player2.Piece = "O";
 
-            Name = "hi";
         }
 
         public string Id { get; set; }
 
-        public string Name { get; set; }
-
-        public List<string> Tags { get; set; }
 
         public Player Player1 { get; set; }
 

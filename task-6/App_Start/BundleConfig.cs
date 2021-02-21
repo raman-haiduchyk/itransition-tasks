@@ -25,9 +25,16 @@ namespace task_6
             bundles.Add(new ScriptBundle("~/bundles/handlebars").Include(
                       "~/Scripts/handlebars.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/tagify").Include(
+                      "~/Scripts/tagify.min.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/jquery-tagify").Include(
+                      "~/Scripts/jQuery.tagify.min.js"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                      "~/Content/tagify.css"));
         }
     }
 }

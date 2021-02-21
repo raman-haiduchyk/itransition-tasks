@@ -10,6 +10,26 @@ namespace task_6
 {
     public class GameHub : Hub
     {
+
+        public void CreateGame(string name)
+        {
+            Player joiningPlayer = HubState.Instance.CreatePlayer(Context.ConnectionId, name);
+            Clients.Caller.playerJoined(joiningPlayer);
+            HubState.Instance.AddToWaitingPool(joiningPlayer);
+            this.Clients.Caller.waitingList();
+        }
+
+        public void AddGameTag(string id, string tag)
+        {
+            Player player = HubState.Instance.GetPlayer(id);
+            if (player != null) player.AddTag(tag);
+        }
+
+        public void JoinGame(string waitingPlayerId)
+        {
+        }
+
+
         public async Task FindGame()
         {
             if (HubState.Instance.IsUsernameTaken(this.Context.ConnectionId))
@@ -107,6 +127,11 @@ namespace task_6
             }
 
             await base.OnDisconnected(stopCalled);
+        }
+
+        public async override Task OnConnected()
+        {
+            await base.OnConnected();
         }
 
     }

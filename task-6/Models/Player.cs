@@ -10,9 +10,26 @@ namespace task_6.Models
         public Player(string id)
         {
             this.Id = id;
+            Tags = new List<string>();
+        }
+
+        public Player(string id, string gameName)
+        {
+            Id = id;
+            GameName = gameName;
+            Tags = new List<string>();
+        }
+
+        public void AddTag(string tagName)
+        {
+            Tags.Add(tagName);
         }
 
         public string Id { get; private set; }
+
+        public string GameName { get; private set; }
+
+        public List<string> Tags { get; private set; }
 
         public string GameId { get; set; }
 

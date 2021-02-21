@@ -59,6 +59,17 @@
         <button type="submit" id="findGame" class="btn btn-primary">Find Game</button>
         <p id="status" class="help-block">Please enter your desired username.</p>
     </div>
+
+    <form class="form-inline" method="post" action="/Game/Index">
+        <div class="form-group">
+            <label class="sr-only control-label" for="gamename">Game Name</label>
+            <input type="text" class="form-control" placeholder="Game Name" required />
+            <label class="sr-only control-label" for="gamename">Game Tags</label>
+            <input  class="form-control" name='tags' required>
+        </div>
+        <input type="submit" class="btn btn-primary" />
+    </form>
+
     <div id="board">
     </div>
 </main>
@@ -66,6 +77,11 @@
 
 <script type="text/javascript">
     $(function () {
+
+        var input = document.querySelector('input[name=tags]');
+
+        // initialize Tagify on the above input node reference
+        new Tagify(input)
 
         const gameHub = $.connection.gameHub;
 

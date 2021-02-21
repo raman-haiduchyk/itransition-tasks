@@ -50,6 +50,14 @@ namespace task_6
             return player;
         }
 
+        public Player CreatePlayer(string connectionId, string gameName)
+        {
+            var player = new Player(connectionId, gameName);
+            players[connectionId] = player;
+
+            return player;
+        }
+
         public Player GetPlayer(string playerId)
         {
             Player foundPlayer;

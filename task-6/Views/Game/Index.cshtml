@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+
+
+@if (ViewBag.Creator != null)
+{
+    foreach (var tag in ViewBag.Creator)
+    {
+        <script type="text/javascript">
+        $(function () {
+            console.log("@tag");
+        })
+        </script>
+    }
+
+}
+
+@if (ViewBag.Creator == null)
+{
+    <script type="text/javascript">
+        $(function () {
+            console.log(false);
+        })
+    </script>
+}
+
+
