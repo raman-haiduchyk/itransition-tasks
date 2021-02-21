@@ -21,7 +21,10 @@ namespace task_6.Controllers
         public ActionResult Index(string gamename, string tags)
         {
             Tag[] deserializedTags = JsonConvert.DeserializeObject<Tag[]>(tags);
-            ViewBag.Creator = new string[] { "ha", "haha" };
+            List<string> tagValues = new List<string>();
+            foreach (var tag in deserializedTags) tagValues.Add(tag.Value);
+            ViewBag.Creator = gamename;
+            ViewBag.Tags = tagValues;
             return View();
         }
 

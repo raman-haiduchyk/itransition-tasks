@@ -63,8 +63,8 @@
     <form class="form-inline" method="post" action="/Game/Index">
         <div class="form-group">
             <label class="sr-only control-label" for="gamename">Game Name</label>
-            <input type="text" class="form-control" placeholder="Game Name" required />
-            <label class="sr-only control-label" for="gamename">Game Tags</label>
+            <input type="text" class="form-control" name="gamename" placeholder="Game Name" required />
+            <label class="sr-only control-label" for="tags">Game Tags</label>
             <input  class="form-control" name='tags' required>
         </div>
         <input type="submit" class="btn btn-primary" />
@@ -141,6 +141,10 @@
         gameHub.client.winner = function (playerName) {
             $('#status').html("Winner: " + playerName);
             endGame();
+        };
+
+        gameHub.client.showGames = function (players) {
+            console.log(players);
         };
 
         // CLIENT BEHAVIORS

@@ -21,11 +21,15 @@ namespace task_6
         private readonly ConcurrentDictionary<string, Player> players =
             new ConcurrentDictionary<string, Player>(StringComparer.OrdinalIgnoreCase);
 
+
         private readonly ConcurrentDictionary<string, Game> games =
             new ConcurrentDictionary<string, Game>(StringComparer.OrdinalIgnoreCase);
 
         private readonly ConcurrentQueue<Player> waitingPlayers =
             new ConcurrentQueue<Player>();
+
+        private readonly ConcurrentDictionary<string, Player> waitingForGame =
+            new ConcurrentDictionary<string, Player>(StringComparer.OrdinalIgnoreCase);
 
         private HubState(IHubContext context)
         {
@@ -41,6 +45,17 @@ namespace task_6
         public IHubConnectionContext<dynamic> Clients { get; set; }
 
         public IGroupManager Groups { get; set; }
+
+
+        public List<Player> GetWaitingPlayers()
+        {
+            List<Player> players = new List<Player>();
+            foreach(var element in waitingForGame.AsEnumerable())
+            {
+                players.Add(element.Value);
+            }
+            return players;
+        }
 
         public Player CreatePlayer(string connectionId)
         {
@@ -113,6 +128,11 @@ namespace task_6
         public void AddToWaitingPool(Player player)
         {
             waitingPlayers.Enqueue(player);
+        }
+
+        public void AddToWaitingList(Player joiningPlayer)
+        {
+            waitingForGame.TryAdd(joiningPlayer.Id, joiningPlayer);
         }
 
         public bool IsUsernameTaken(string id)

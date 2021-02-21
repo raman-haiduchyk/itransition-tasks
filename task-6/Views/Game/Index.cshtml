@@ -3,30 +3,52 @@
     ViewBag.Title = "Index";
 }
 
+<script src="~/Scripts/jquery.signalR-2.2.2.js"></script>
+<script src="~/signalr/hubs"></script>
+
 <h2>Index</h2>
 
 
+<script type="text/javascript">var isCreator = false;</script>
 
 @if (ViewBag.Creator != null)
 {
-    foreach (var tag in ViewBag.Creator)
+    <script type="text/javascript">
+        var tags = [];
+        const gamename = "@ViewBag.Creator";
+        isCreator = true;
+    </script>
+
+    foreach (var tag in ViewBag.Tags)
     {
         <script type="text/javascript">
-        $(function () {
-            console.log("@tag");
-        })
+            tags.push("@tag");
         </script>
     }
-
 }
+
+<script type="text/javascript">
+    const gameHub = $.connection.gameHub;
+    $.connection.hub.logging = true;
+    $.connection.hub.start().done(function () {
+        if (isCreator) {
+            gameHub.server.createGame(gamename);
+            tags.forEach(tag => gameHub.server.addGameTag(tag));
+        }
+    });
+</script>
+
+
 
 @if (ViewBag.Creator == null)
 {
     <script type="text/javascript">
-        $(function () {
-            console.log(false);
-        })
+
     </script>
 }
+
+<script type="text/javascript">
+
+</script>
 
 

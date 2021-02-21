@@ -14,15 +14,18 @@ namespace task_6
         public void CreateGame(string name)
         {
             Player joiningPlayer = HubState.Instance.CreatePlayer(Context.ConnectionId, name);
-            Clients.Caller.playerJoined(joiningPlayer);
-            HubState.Instance.AddToWaitingPool(joiningPlayer);
-            this.Clients.Caller.waitingList();
+            HubState.Instance.AddToWaitingList(joiningPlayer);
+            Clients.Caller.waitingList();
         }
 
-        public void AddGameTag(string id, string tag)
+        public void AddGameTag(string tag)
         {
-            Player player = HubState.Instance.GetPlayer(id);
+            Player player = HubState.Instance.GetPlayer(Context.ConnectionId);
             if (player != null) player.AddTag(tag);
+        }
+
+        public void WaitForOpponent()
+        {
         }
 
         public void JoinGame(string waitingPlayerId)
@@ -131,6 +134,7 @@ namespace task_6
 
         public async override Task OnConnected()
         {
+            Clients.Caller.showGames(HubState.Instance.GetWaitingPlayers());
             await base.OnConnected();
         }
 
