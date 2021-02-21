@@ -13,8 +13,9 @@ namespace task_6
 
         public void CreateGame(string name)
         {
-            Player joiningPlayer = HubState.Instance.CreatePlayer(Context.ConnectionId, name);
-            HubState.Instance.AddToWaitingList(joiningPlayer);
+            Player player = HubState.Instance.CreatePlayer(Context.ConnectionId, name);
+            HubState.Instance.AddToWaitingList(player);
+            Clients.Caller.playerJoined(player);
             Clients.Caller.waitingList();
         }
 
@@ -28,8 +29,20 @@ namespace task_6
         {
         }
 
-        public void JoinGame(string waitingPlayerId)
+        public async Task JoinGame(string waitingPlayerId)
         {
+            Player joiningPlayer = HubState.Instance.CreatePlayer(Context.ConnectionId);
+            Player opponent = HubState.Instance.GetOpponent(waitingPlayerId);
+            if (opponent == null)
+            {
+
+            }
+            else
+            {
+                Game newGame = await HubState.Instance.CreateGame(opponent, joiningPlayer);
+                Clients.Caller.playerJoined(joiningPlayer);
+                Clients.Group(newGame.Id).start(newGame);
+            }
         }
 
 

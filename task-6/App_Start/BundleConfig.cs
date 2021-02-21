@@ -22,6 +22,9 @@ namespace task_6
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/signalR").Include(
+                      "~/Scripts/jquery.signalR-2.2.2.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/handlebars").Include(
                       "~/Scripts/handlebars.js"));
 

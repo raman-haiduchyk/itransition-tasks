@@ -33,6 +33,7 @@ namespace task_6.Controllers
         [HttpGet]
         public ActionResult Index(string id)
         {
+            ViewBag.Id = id;
             return View();
         }
     }

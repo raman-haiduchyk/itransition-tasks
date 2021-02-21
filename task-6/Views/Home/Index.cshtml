@@ -1,77 +1,88 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
-<script src="~/Scripts/jquery.signalR-2.2.2.js"></script>
 <script src="~/signalr/hubs"></script>
+
 <style>
-    table {
-        margin: 0 auto;
-        table-layout: fixed;
-        font-size: 50px;
+
+    .games {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        justify-items:center;
     }
 
-        table td {
-            width: 100px;
-            height: 100px;
-        }
+    .tags {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
 
-        table tr {
-            border-bottom: 3px solid black;
-        }
+    .tag {
+        margin: 3px;
+        padding: 2px;
+        background-color: #eee;
+        border-radius: 3px;
+    }
 
-            table tr:last-child {
-                border-bottom: none;
-            }
+    .tagify {
+        border-radius:4px;
 
-        table td {
-            border-right: 3px solid black;
-        }
+    }
 
-            table td:last-child {
-                border-right: none;
-            }
+    .card {
+        color: black;
+        background-color: white;
+        padding: 10px;
+        margin: 10px;
+        -webkit-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.5);
+        -moz-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.5);
+        box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.5);
+        border-radius: 5px;
+        width: 200px;
+        max-height: 200px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
 </style>
 
-<script id="board-template" type="text/x-handlebars-template">
-    <table>
-        <tbody>
-            {{#each Pieces}}
-            <tr>
-                {{#each this}}
-                <td id="pos-{{@@../index}}-{{@@index}}">{{this}}</td>
+<script id="games-template" type="text/x-handlebars-template">
+
+    {{#each this}}
+    <a href="/Game/Index/{{Id}}">
+        <div class="card">
+            <h3>{{GameName}}</h3>
+            <div class="tags">
+                {{#each Tags}}
+                <div class="tag">
+                    {{this}}
+                </div>
                 {{/each}}
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
+            </div>
+        </div>
+    </a>
+    {{/each}}
+
 </script>
-
-
 
 <main class="container text-center">
     <h1>Tic-Tac-Toe</h1>
 
-    <div class="form-inline">
-        <div class="form-group" id="usernameGroup">
-            <label class="sr-only control-label" for="username">Username</label>
-            <input type="text" class="form-control" id="username" placeholder="Username" autofocus />
-        </div>
-        <button type="submit" id="findGame" class="btn btn-primary">Find Game</button>
-        <p id="status" class="help-block">Please enter your desired username.</p>
-    </div>
-
     <form class="form-inline" method="post" action="/Game/Index">
         <div class="form-group">
-            <label class="sr-only control-label" for="gamename">Game Name</label>
+            <label for="gamename">Game Name</label><br>
             <input type="text" class="form-control" name="gamename" placeholder="Game Name" required />
-            <label class="sr-only control-label" for="tags">Game Tags</label>
-            <input  class="form-control" name='tags' required>
-        </div>
-        <input type="submit" class="btn btn-primary" />
+        </div><br><br>
+        <div class="form-group">
+            <label for="tags">Game Tags</label>
+            <input name='tags' required>
+        </div><br><br>
+        
+        <input id="createGame" type="submit" class="btn btn-primary" value="Create Game"/>
     </form>
 
-    <div id="board">
-    </div>
+    <div id="games" class="games"></div>
 </main>
 
 
@@ -81,155 +92,31 @@
         var input = document.querySelector('input[name=tags]');
 
         // initialize Tagify on the above input node reference
-        new Tagify(input)
+        new Tagify(input, {
+            maxTags: 10
+        })
+
+        var input = document.querySelector('input[name=tags4]'),
+            tagify = new Tagify(input);
 
         const gameHub = $.connection.gameHub;
 
-        gameHub.client.playerJoined = function (player) {
-            playerId = player.Id;
-            $('#usernameGroup').removeClass("has-error");
-            disableInput();
-        };
-
-        // The username is already taken
-        gameHub.client.usernameTaken = function () {
-            $('#status').html("The username is already taken.");
-            $('#usernameGroup').addClass("has-error");
-        };
-
-        gameHub.client.opponentLeft = function () {
-            $('#status').html("Opponent has left. Game over.");
-            endGame();
-        };
-
-        gameHub.client.waitingList = function () {
-            $('#status').html("Waiting for an opponent.");
-        };
-
-        gameHub.client.start = function (game) {
-            buildBoard(game.Board);
-            var opponent = getOpponent(game);
-            displayOpponent(opponent);
-            displayTurn(game.WhoseTurn, true);
-        };
-
-        gameHub.client.notPlayersTurn = function () {
-            $('#status').html("Please wait your turn.");
-        };
-
-        gameHub.client.notValidMove = function () {
-            $('#status').html("Please choose another location.");
-        };
-
-        gameHub.client.piecePlaced = function (row, col, piece) {
-            $('#pos-' + row + '-' + col).html(piece);
-        };
-
-        // TODO: can be combined with piecePlaced by having the server
-        // send the whole game object, render the board and update in one method
-        gameHub.client.updateTurn = function (game) {
-            displayTurn(game.WhoseTurn);
-        };
-
-        // Handle the tie game - game over scenario
-        gameHub.client.tieGame = function () {
-            $('#status').html("Tie!");
-            endGame();
-        };
-
-        // Handle the tie game - game over scenario
-        gameHub.client.winner = function (playerName) {
-            $('#status').html("Winner: " + playerName);
-            endGame();
-        };
-
         gameHub.client.showGames = function (players) {
             console.log(players);
+            var template = Handlebars.compile($('#games-template').html());
+            $('#games').html(template(players));
         };
-
-        // CLIENT BEHAVIORS
-        // Call server to find a game if button is clicked
-        $('#findGame').click(function () {
-            var chosenUsername = $('#username').val();
-            gameHub.server.findGame();
-        });
-
-        //pressing 'Enter' will automatically click Find Game button
-        $('#username').keypress(function (e) {
-            if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
-                $('#findGame').click();
-                return false;
-            }
-
-            return true;
-        });
 
         // Enables username and find game inputs
         function enableInput() {
-            $('#username').removeAttr('disabled');
-            $('#findGame').removeAttr('disabled');
-            $('#username').focus();
+            $('#gamename').removeAttr('disabled');
+            $('#createGame').removeAttr('disabled');
         };
 
         // Disables username and find game inputs
         function disableInput() {
-            $('#username').attr('disabled', 'disabled');
-            $('#findGame').attr('disabled', 'disabled');
-        };
-
-        // Game over business logic should disable board button handlers and 
-        // allow player to join a new game
-        function endGame() {
-            // Remove click handlers from board positions
-            $('td[id^=pos-]').off('click');
-            enableInput();
-        };
-
-        // Display whose turn it is
-        function displayTurn(playersTurn, isDisplayingOpponent) {
-            var turnMessage = "";
-            if (playerId == playersTurn.Id) {
-                turnMessage = "Your turn";
-            } else {
-                turnMessage = playersTurn.Id + "\'s turn";
-            }
-
-            // Do not overwrite opponent's name if it is being displayed
-            if (isDisplayingOpponent) {
-                $('#status').html($('#status').html() + turnMessage);
-            } else {
-                $('#status').html(turnMessage);
-            }
-        };
-
-        // Displays the opponents name
-        function displayOpponent(opponent) {
-            $('#status').html("You are playing against " + opponent.Id + "<br />");
-        };
-
-        // Build and display the board
-        function buildBoard(board) {
-            var template = Handlebars.compile($('#board-template').html());
-            $('#board').html(template(board));
-
-            // attach click handlers to each position
-            $('td[id^=pos-]').click(function (e) {
-                e.preventDefault();
-                var id = this.id; // "pos-0-0"
-                var parts = id.split("-"); // [pos, 0, 0]
-                var row = parts[1];
-                var col = parts[2];
-                gameHub.server.placePiece(row, col);
-            });
-        };
-
-        // Retrieves the opponent player from the game
-        function getOpponent(game) {
-            if (playerId == game.Player1.Id) {
-                return game.Player2;
-            } else {
-                return game.Player1;
-            }
+            $('#gamename').attr('disabled', 'disabled');
+            $('#createGame').attr('disabled', 'disabled');
         };
 
         // Open a connection to the server hub

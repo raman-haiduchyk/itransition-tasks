@@ -111,6 +111,16 @@ namespace task_6
             return foundPlayer;
         }
 
+        public Player GetOpponent(string id)
+        {
+            Player foundPlayer;
+            if (!waitingForGame.TryRemove(id, out foundPlayer))
+            {
+                return null;
+            }
+            return foundPlayer;
+        }
+
         public void RemoveGame(string gameId)
         {
             // Remove the game
@@ -145,11 +155,11 @@ namespace task_6
         {
             // Define the new game and add to waiting pool
             Game game = new Game(firstPlayer, secondPlayer);
-            this.games[game.Id] = game;
+            games[game.Id] = game;
 
             // Create a new group to manage communication using ID as group name
-            await this.Groups.Add(firstPlayer.Id, groupName: game.Id);
-            await this.Groups.Add(secondPlayer.Id, groupName: game.Id);
+            await Groups.Add(firstPlayer.Id, groupName: game.Id);
+            await Groups.Add(secondPlayer.Id, groupName: game.Id);
 
             return game;
         }
