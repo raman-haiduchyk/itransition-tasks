@@ -15,9 +15,14 @@ namespace task_6
         public void CreateGame(string name)
         {
             Player player = HubState.Instance.CreatePlayer(Context.ConnectionId, name);
-            HubState.Instance.AddToWaitingList(player);
             Clients.Caller.playerJoined(player);
             Clients.Caller.waitingList();
+        }
+
+        public void ReadyForGame()
+        {
+            Player player = HubState.Instance.GetPlayer(Context.ConnectionId);
+            HubState.Instance.AddToWaitingList(player);
             Clients.Others.showGames(HubState.Instance.GetWaitingPlayers());
         }
 

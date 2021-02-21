@@ -86,6 +86,7 @@
         if (isCreator) {
             gameHub.server.createGame(gamename);
             tags.forEach(tag => gameHub.server.addGameTag(tag));
+            gameHub.server.readyForGame();
         } else {
             id = "@ViewBag.Id";
             console.log(id);
