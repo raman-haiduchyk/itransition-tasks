@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.SignalR;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,7 @@ namespace task_6
             HubState.Instance.AddToWaitingList(player);
             Clients.Caller.playerJoined(player);
             Clients.Caller.waitingList();
+            Clients.Others.showGames(HubState.Instance.GetWaitingPlayers());
         }
 
         public void AddGameTag(string tag)
@@ -25,8 +27,18 @@ namespace task_6
             if (player != null) player.AddTag(tag);
         }
 
-        public void WaitForOpponent()
+        public void GetGamesWithTags(string tags)
         {
+            Tag[] deserializedTags = JsonConvert.DeserializeObject<Tag[]>(tags);
+            List<string> tagValues = new List<string>();
+            foreach (var tag in deserializedTags) tagValues.Add(tag.Value);
+            Clients.Caller.showFilteredGames(HubState.Instance.GetWaitingPlayers()
+                .Where(player => player.Tags.Intersect(tagValues).Any()));
+        }
+
+        public void GetGames()
+        {
+            Clients.Caller.showGames(HubState.Instance.GetWaitingPlayers());
         }
 
         public async Task JoinGame(string waitingPlayerId)
@@ -65,31 +77,24 @@ namespace task_6
                 return;
             }
 
-            // Notify everyone of the valid move. Only send what is necessary (instead of sending whole board)
             game.PlacePiece(row, col);
             Clients.Group(game.Id).piecePlaced(row, col, playerMakingTurn.Piece);
 
-            // check if game is over (won or tie)
             if (!game.IsOver)
             {
-                // Update the turn like normal if the game is still ongoing
                 Clients.Group(game.Id).updateTurn(game);
             }
             else
             {
-                // Determine how the game is over in order to display correct message to client
                 if (game.IsTie())
                 {
-                    // Cat's game
                     Clients.Group(game.Id).tieGame();
                 }
                 else
                 {
-                    // Player outright won
                     Clients.Group(game.Id).winner(playerMakingTurn.Id);
                 }
 
-                // Remove the game (in any game over scenario) to reclaim resources
                 HubState.Instance.RemoveGame(game.Id);
             }
         }
@@ -98,7 +103,6 @@ namespace task_6
         {
             Player leavingPlayer = HubState.Instance.GetPlayer(playerId: Context.ConnectionId);
 
-            // Only handle cases where user was a player in a game or waiting for an opponent
             if (leavingPlayer != null)
             {
                 Player opponent;

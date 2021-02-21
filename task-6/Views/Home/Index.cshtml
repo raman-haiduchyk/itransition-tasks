@@ -48,7 +48,6 @@
 </style>
 
 <script id="games-template" type="text/x-handlebars-template">
-
     {{#each this}}
     <a href="/Game/Index/{{Id}}" id="{{Id}}">
         <div class="card">
@@ -63,7 +62,6 @@
         </div>
     </a>
     {{/each}}
-
 </script>
 
 <main class="container text-center">
@@ -76,10 +74,12 @@
         </div><br><br>
         <div class="form-group">
             <label for="tags">Game Tags</label>
-            <input name='tags' required>
+            <input id="tags" name="tags" required>
         </div><br><br>
-        
-        <input id="createGame" type="submit" class="btn btn-primary" value="Create Game"/>
+
+        <input id="createGame" type="submit" class="btn btn-primary" value="Create Game" />
+        <button id="filterButton" type="button" class="btn btn-primary">Filter By Tags</button>
+        <button id="dropButton" type="button" class="btn btn-primary">Drop Tag Filters</button>
     </form>
 
     <div id="games" class="games"></div>
@@ -87,41 +87,71 @@
 
 
 <script type="text/javascript">
+
     $(function () {
+        disableInput();
+        isFiltered = false;
 
         var input = document.querySelector('input[name=tags]');
 
-        // initialize Tagify on the above input node reference
+
         new Tagify(input, {
             maxTags: 10
         })
 
-        var input = document.querySelector('input[name=tags4]'),
-            tagify = new Tagify(input);
-
         const gameHub = $.connection.gameHub;
 
         gameHub.client.showGames = function (players) {
-            var template = Handlebars.compile($('#games-template').html());
-            $('#games').html(template(players));
+            if (isFiltered) {
+                gameHub.server.getGamesWithTags(filters);
+            } else {
+                showGames(players);
+            }
         };
 
-        // Enables username and find game inputs
+        gameHub.client.showFilteredGames = function (players) {
+            showGames(players);
+        };
+
+        gameHub.client.removeGame = function (id) {
+            $(`#${id}`).remove();
+        };
+
+
         function enableInput() {
             $('#gamename').removeAttr('disabled');
             $('#createGame').removeAttr('disabled');
         };
 
-        // Disables username and find game inputs
+
         function disableInput() {
             $('#gamename').attr('disabled', 'disabled');
             $('#createGame').attr('disabled', 'disabled');
         };
 
-        // Open a connection to the server hub
-        $.connection.hub.logging = true; // Enable client side logging
+        function showGames(players) {
+            var template = Handlebars.compile($('#games-template').html());
+            $('#games').html(template(players));
+        }
+
+
+        $('#filterButton').click(function () {
+            filters = $('#tags').val();
+            if (filters) {
+                gameHub.server.getGamesWithTags(filters);
+                isFiltered = true;
+            }
+        });
+
+        $('#dropButton').click(function () {
+            isFiltered = false;
+            gameHub.server.getGames();
+        });
+
+        $.connection.hub.logging = true; 
+
         $.connection.hub.start().done(function () {
-            // Enable the find game button
+
             enableInput();
         });
     })

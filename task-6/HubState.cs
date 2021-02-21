@@ -25,9 +25,6 @@ namespace task_6
         private readonly ConcurrentDictionary<string, Game> games =
             new ConcurrentDictionary<string, Game>(StringComparer.OrdinalIgnoreCase);
 
-        private readonly ConcurrentQueue<Player> waitingPlayers =
-            new ConcurrentQueue<Player>();
-
         private readonly ConcurrentDictionary<string, Player> waitingForGame =
             new ConcurrentDictionary<string, Player>(StringComparer.OrdinalIgnoreCase);
 
@@ -100,17 +97,6 @@ namespace task_6
             return foundGame;
         }
 
-        public Player GetWaitingOpponent()
-        {
-            Player foundPlayer;
-            if (!waitingPlayers.TryDequeue(out foundPlayer))
-            {
-                return null;
-            }
-
-            return foundPlayer;
-        }
-
         public Player GetOpponent(string id)
         {
             Player foundPlayer;
@@ -135,29 +121,17 @@ namespace task_6
             players.TryRemove(foundGame.Player2.Id, out foundPlayer);
         }
 
-        public void AddToWaitingPool(Player player)
-        {
-            waitingPlayers.Enqueue(player);
-        }
-
         public void AddToWaitingList(Player joiningPlayer)
         {
             waitingForGame.TryAdd(joiningPlayer.Id, joiningPlayer);
         }
 
-        public bool IsUsernameTaken(string id)
-        {
-            return players.Values.FirstOrDefault(player => player.Id.Equals(id, StringComparison.InvariantCultureIgnoreCase)) != null;
-        }
-
-
         public async Task<Game> CreateGame(Player firstPlayer, Player secondPlayer)
         {
-            // Define the new game and add to waiting pool
             Game game = new Game(firstPlayer, secondPlayer);
             games[game.Id] = game;
 
-            // Create a new group to manage communication using ID as group name
+
             await Groups.Add(firstPlayer.Id, groupName: game.Id);
             await Groups.Add(secondPlayer.Id, groupName: game.Id);
 

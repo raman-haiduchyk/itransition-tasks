@@ -1,21 +1,13 @@
-﻿using Microsoft.AspNet.SignalR.Hubs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using Newtonsoft.Json;
+using task_6.Models;
 
 namespace task_6.Controllers
 {
     public class GameController : Controller
     {
-        private class Tag
-        {
-            public string Value { get; set; }
-        }
-
-
+       
 
         [HttpPost]
         public ActionResult Index(string gamename, string tags)
