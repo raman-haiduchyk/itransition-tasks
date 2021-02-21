@@ -100,8 +100,7 @@
 
 
         gameHub.client.opponentLeft = function () {
-            $('#status').html("Opponent has left. Game over.");
-            endGame();
+            endGame('Opponent has left.');
         };
 
         gameHub.client.waitingList = function () {
@@ -115,7 +114,7 @@
         };
 
         gameHub.client.notPlayersTurn = function () {
-            $('#status').html("Please wait your turn.");
+            $('#status').html("Wait for your turn.");
         };
 
         gameHub.client.notValidMove = function () {
@@ -126,30 +125,27 @@
             $('#pos-' + row + '-' + col).html(piece);
         };
 
-        // TODO: can be combined with piecePlaced by having the server
-        // send the whole game object, render the board and update in one method
         gameHub.client.updateTurn = function (game) {
             displayTurn(game.WhoseTurn);
         };
 
-        // Handle the tie game - game over scenario
+
         gameHub.client.tieGame = function () {
-            $('#status').html("Tie!");
-            endGame();
-        };
-
-        // Handle the tie game - game over scenario
-        gameHub.client.winner = function (playerName) {
-            $('#status').html("Winner: " + playerName);
-            endGame();
+            endGame('Draw!');
         };
 
 
-        // Game over business logic should disable board button handlers and
-        // allow player to join a new game
-        function endGame() {
-            // Remove click handlers from board positions
+        gameHub.client.winner = function (winnerId) {
+            var message = playerId == winnerId ? 'You win!' : 'You lose!';
+            console.log(message);
+            endGame(message);
+        };
+
+
+        function endGame(message) {
             $('td[id^=pos-]').off('click');
+            window.alert(message);
+            window.location.href = '/Home/Index';
         };
 
         // Display whose turn it is
@@ -158,7 +154,7 @@
             if (playerId == playersTurn.Id) {
                 turnMessage = "Your turn";
             } else {
-                turnMessage = playersTurn.Id + "\'s turn";
+                turnMessage = "Opponent's turn";
             }
 
             // Do not overwrite opponent's name if it is being displayed
@@ -173,7 +169,7 @@
         // Build and display the board
         function buildBoard(board) {
             var template = Handlebars.compile($('#board-template').html());
-            $('#board').html(template(board));
+            $('#board').append(template(board));
 
             // attach click handlers to each position
             $('td[id^=pos-]').click(function (e) {

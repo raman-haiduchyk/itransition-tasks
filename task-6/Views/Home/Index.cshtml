@@ -50,7 +50,7 @@
 <script id="games-template" type="text/x-handlebars-template">
 
     {{#each this}}
-    <a href="/Game/Index/{{Id}}">
+    <a href="/Game/Index/{{Id}}" id="{{Id}}">
         <div class="card">
             <h3>{{GameName}}</h3>
             <div class="tags">
@@ -102,7 +102,6 @@
         const gameHub = $.connection.gameHub;
 
         gameHub.client.showGames = function (players) {
-            console.log(players);
             var template = Handlebars.compile($('#games-template').html());
             $('#games').html(template(players));
         };
