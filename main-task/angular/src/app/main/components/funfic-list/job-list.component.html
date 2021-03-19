@@ -1,0 +1,4 @@
+<app-funfic-card *ngFor="let funfic of funfics$ | async | filter : dateFilterState"
+  [funficInfo]="funfic"
+  [itemId]="funfic.id"
+></app-funfic-card>

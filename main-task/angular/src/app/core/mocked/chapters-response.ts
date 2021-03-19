@@ -1,0 +1,32 @@
+import { Chapter } from '../models/chapter.model';
+
+export const chapterResponse: Chapter[] = [
+  {
+    id: '1',
+    funficId: '1',
+    number: 1,
+    name: 'first chap',
+    text: 'frefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efr frefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efr frefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efr frefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efr frefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efrfrefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efr frefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efr frefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efr frefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efrfrefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efr frefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efr frefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efr'
+  },
+  {
+    id: '2',
+    funficId: '1',
+    number: 2,
+    name: 'second chap',
+    text: 'frefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efr frefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efr frefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efr frefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efr frefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efrfrefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efr frefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efr frefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efr frefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efrfrefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efr frefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efr frefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efr'
+  },
+  {
+    id: '3',
+    funficId: '1',
+    number: 3,
+    name: 'third chap',
+    text: 'frefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efr frefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efr frefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efr frefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efr frefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efrfrefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efr frefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efr frefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efr frefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efrfrefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efr frefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efr frefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efr'
+  },
+  {
+    id: '4',
+    funficId: '2',
+    number: 4,
+    name: 'fourth chap',
+    text: 'frefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efr frefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efr frefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efr frefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efr frefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efrfrefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efr frefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efr frefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efr frefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efrfrefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efr frefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efr frefer cer vr rbb thb th bt bt b ytty bt ybty btyb tjkbbjh gvg vgv gv vg v gv gv gv g vg vg vg vg vh njn j bgv cf c h j efr'
+  },
+];

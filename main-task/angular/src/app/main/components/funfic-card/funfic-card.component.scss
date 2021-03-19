@@ -1,0 +1,24 @@
+:host {
+  min-width: 310px
+}
+
+img {
+  background-size: cover;
+}
+
+
+.add-info {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  font-size:larger;
+}
+
+.rating {
+  text-align: right;
+}
+
+mat-card{
+  border: 1px solid rgba($color: #757575, $alpha: 0.4);
+}

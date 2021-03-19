@@ -1,0 +1,30 @@
+<mat-card>
+<form [formGroup]="authForm" autocomplete="off" (ngSubmit)="loginUser()">
+  <h2>Authentication</h2>
+  <mat-form-field>
+    <input matInput placeholder="Login" formControlName="login">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Password" formControlName="password" type='password'>
+  </mat-form-field>
+  <button mat-raised-button [disabled]="authForm.invalid" type="submit">Submit</button>
+</form>
+<br>
+  <div class="alert alert-danger" role="alert">
+    {{errorMessage}}
+
+  </div>
+<br>
+<mat-divider></mat-divider>
+<br>
+<p>Enter with socials</p>
+<div class="extern-login">
+  <button mat-raised-button (click)="externalGoogleLogin()">Google</button>
+  <button mat-raised-button (click)="externalFbLogin()">Facebook</button>
+ <!--<button mat-raised-button (click)="externalMicrosoftLogin()">Microsoft</button>-->
+</div>
+<br>
+<mat-divider></mat-divider>
+<br>
+<a href="/auth/register">Register</a>
+</mat-card>

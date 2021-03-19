@@ -1,0 +1,13 @@
+<div fxLayout="row" class="mat-elevation-z2">
+  <mat-nav-list *ngIf="chapters" fxFlex.gt-sm="150px">
+    <a mat-list-item *ngFor="let chap of chapters; let i = index" (click)="setChapter(i)">{{chap.name}}</a>
+  </mat-nav-list>
+  <div *ngIf="funfic" class="text">
+    <div class="info" fxLayout="column" fxLayoutAlign="center center">
+      <h1>{{funfic.name}}</h1>
+      <h3>{{funfic.author}}</h3>
+    </div>
+    <app-chapter *ngIf="chapters" [chapter]="chapters[currentChapter]"></app-chapter>
+  </div>
+</div>
+
