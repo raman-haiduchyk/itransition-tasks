@@ -15,6 +15,7 @@ import { FilterPipe } from './pipes/filter.pipe';
 import { FilterService } from './services/filter.service';
 import { ReadComponent } from './components/read/read.component';
 import { ChapterComponent } from './components/chapter/chapter.component';
+import { StarRatingModule } from 'angular-star-rating';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { ChapterComponent } from './components/chapter/chapter.component';
   imports: [
     CommonModule,
     MainRoutingModule,
-    SharedModule
+    SharedModule,
+    StarRatingModule.forRoot(),
   ],
   exports: [
     JobListComponent,

@@ -16,6 +16,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatChipsModule } from '@angular/material/chips';
+import {MatTooltipModule} from '@angular/material/tooltip';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
 
@@ -38,6 +39,7 @@ import { FormsModule } from '@angular/forms';
     MatTableModule,
     MatSortModule,
     MatChipsModule,
+    MatTooltipModule,
     FlexLayoutModule,
     FormsModule
   ],
@@ -57,6 +59,7 @@ import { FormsModule } from '@angular/forms';
     MatTableModule,
     MatSortModule,
     MatChipsModule,
+    MatTooltipModule,
     FlexLayoutModule,
     FormsModule
   ]

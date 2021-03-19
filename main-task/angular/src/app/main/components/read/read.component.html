@@ -6,6 +6,26 @@
     <div class="info" fxLayout="column" fxLayoutAlign="center center">
       <h1>{{funfic.name}}</h1>
       <h3>{{funfic.author}}</h3>
+      <div class="ratings" fxLayout="column" fxLayoutAlign="center end">
+      <star-rating
+        [matTooltip]= "funfic.scoreCount+' scores : '+funfic.rating"
+        [matTooltipPosition]="'above'"
+        [labelText]="'Users score'"
+        [starType]="'svg'"
+        [rating]="funfic.rating"
+        [showHalfStars]="true"
+        [readOnly]="true"
+      ></star-rating>
+      <star-rating
+        [labelText]="'Your score'"
+        [starType]="'svg'"
+        [rating]="rating"
+        [showHalfStars]="true"
+        [hoverEnabled]="true"
+        (ratingChange)="onRatingChange($event)"
+      ></star-rating>
+      </div>
+
     </div>
     <app-chapter *ngIf="chapters" [chapter]="chapters[currentChapter]"></app-chapter>
   </div>
