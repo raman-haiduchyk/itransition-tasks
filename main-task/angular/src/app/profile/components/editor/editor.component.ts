@@ -19,13 +19,12 @@ import { map, startWith } from 'rxjs/operators';
 export class EditorComponent implements OnInit {
 
   public funfic: Funfic;
-  public chapters: Chapter[];
   public allTags: string[];
   public filteredTags: Observable<string[]>;
   public mode: string;
   public opened: boolean;
 
-  @ViewChild('tagsInput') public fruitInput: ElementRef<HTMLInputElement>;
+  @ViewChild('tagsInput') public tagsInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') public matAutocomplete: MatAutocomplete;
   public tagsCtrl: FormControl = new FormControl();
 
@@ -59,8 +58,10 @@ export class EditorComponent implements OnInit {
 
     this.route.params.subscribe(
       params => {
-        this.requestService.getFunficByIdResponse(params.id).subscribe(res => this.funfic = res);
-        this.requestService.getChaptersResponse(params.id).subscribe(res => this.chapters = res);
+        this.requestService.getFunficByIdResponse(params.id).subscribe(funfic => {
+          this.funfic = funfic;
+          this.requestService.getChaptersResponse(params.id).subscribe(chapters => this.funfic.chapters = chapters);
+        });
       }
     );
 
@@ -68,12 +69,12 @@ export class EditorComponent implements OnInit {
       this.allTags = tags;
       this.filteredTags = this.tagsCtrl.valueChanges.pipe(
         startWith(null),
-        map((fruit: string) => fruit ? this.filter(fruit) : this.allTags.slice()));
+        map((fruit: string) => fruit ? this.filter(fruit) : this.allTags));
     });
   }
 
   public drop(event: CdkDragDrop<string[]>): void {
-    moveItemInArray(this.chapters, event.previousIndex, event.currentIndex);
+    moveItemInArray(this.funfic.chapters, event.previousIndex, event.currentIndex);
   }
 
   public remove(tag: string): void {
@@ -97,7 +98,7 @@ export class EditorComponent implements OnInit {
 
   public selected(event: MatAutocompleteSelectedEvent): void {
     this.funfic.tags.push(event.option.viewValue);
-    // this.fruitInput.nativeElement.value = '';
+    this.tagsInput.nativeElement.value = '';
     this.tagsCtrl.setValue(null);
   }
 

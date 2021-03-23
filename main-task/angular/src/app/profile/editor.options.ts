@@ -11,8 +11,7 @@ export const modules = {
     [{ 'size': ['small', false, 'large'] }],  // custom dropdown
     [{ 'header': [1, 2, 3, false] }],
 
-    [{ 'color': [] }],          // dropdown with defaults from theme
-    [{ 'font': [] }],
+    [{ 'color': [] }],
     [{ 'align': [] }],
     ['clean'],
     ['image']
