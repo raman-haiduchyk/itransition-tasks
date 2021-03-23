@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -44,6 +45,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatSortModule,
     MatChipsModule,
     MatTooltipModule,
+    MatProgressSpinnerModule,
     MatAutocompleteModule,
     FlexLayoutModule,
     DragDropModule,
@@ -54,6 +56,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatInputModule,
     MatButtonModule,
     MatPaginatorModule,
+    MatProgressSpinnerModule,
     MatFormFieldModule,
     MatIconModule,
     MatCardModule,

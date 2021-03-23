@@ -47,7 +47,6 @@ quill-editor {
   }
   border: solid 1px #ccc;
   min-height: 60px;
-  display: block;
   background: white;
   border-radius: 4px;
   overflow: hidden;
@@ -62,7 +61,7 @@ quill-editor {
   align-items: center;
   justify-content: space-between;
   box-sizing: border-box;
-  cursor: move;
+  cursor: pointer;
   background: white;
   font-size: 14px;
 }

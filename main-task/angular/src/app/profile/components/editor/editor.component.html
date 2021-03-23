@@ -8,8 +8,9 @@
 
       <h2>Chapters:</h2>
 
-      <div cdkDropList class="list" (cdkDropListDropped)="drop($event)">
-        <div matRipple class="chapter" *ngFor="let chapter of funfic.chapters" cdkDrag>{{chapter.name}}</div>
+      <div cdkDropList class="list" (cdkDropListDropped)="drop($event)" fxLayout="column">
+        <div matRipple class="chapter" *ngFor="let chapter of funfic.chapters; let i = index" cdkDrag>{{i+1}}. {{chapter.name}}</div>
+        <button mat-button><mat-icon>add</mat-icon></button>
       </div>
 
       <mat-form-field class="input-field">
@@ -50,13 +51,14 @@
     </div>
   </mat-sidenav>
 
-  <mat-sidenav-content class="content" fxLayout="column">
+  <mat-sidenav-content class="content" fxLayout="column" fxLayoutAlign="center center">
+    <mat-spinner *ngIf="!(funfic && funfic.chapters)"></mat-spinner>
       <div class="editor" fxLayout="column" fxLayoutAlign="start center" *ngIf="funfic && funfic.chapters">
         <button mat-stroked-button (click)="sidenav.toggle()" class="toggle-button" fxHide.gt-xs>Chapters and tags</button>
         <h1>{{funfic.name}}</h1>
         <quill-editor></quill-editor>
       </div>
-      <button mat-stroked-button>Save Changes</button>
+      <button mat-stroked-button *ngIf="funfic && funfic.chapters">Save Changes</button>
   </mat-sidenav-content>
 
 </mat-sidenav-container>
