@@ -61,8 +61,11 @@ export class AuthService {
     this.externalAuthService.signOut();
   }
 
-  public refreshToken(route: string, body: Tokens): Observable<Tokens> {
-    return this.http.post<Tokens>(this.createCompleteRoute(route, this.url), body);
+  public refreshToken(route: string): Observable<Tokens> {
+    const accessToken: string = localStorage.getItem('accessToken');
+    const refreshToken: string = localStorage.getItem('refreshToken');
+    const tokens: Tokens = {accessToken: accessToken, refreshToken: refreshToken };
+    return this.http.post<Tokens>(this.createCompleteRoute(route, this.url), tokens);
   }
 
   public logout(): void {

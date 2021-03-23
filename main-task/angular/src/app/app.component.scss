@@ -9,14 +9,7 @@
 .main-wrapper {
   height: calc(100% - 120px);
   padding: 10px;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
- .main-wrapper::-webkit-scrollbar {
-   display: none;
- }
 
- .main-wrapper {
- -ms-overflow-style: none;
- scrollbar-width: none;
- }

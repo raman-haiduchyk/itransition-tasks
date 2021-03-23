@@ -1,8 +1,28 @@
 :host {
   width: 100%;
   height: 100%;
-  overflow: hidden;
 }
+
+.toggle-button {
+  width: 100%;
+  background-color: white;
+  z-index: 5;
+  position: sticky;
+  top: -1px;
+}
+
+.list{
+  h2 {padding: 0 16px;}
+  width: 250px;
+}
+
+.content {
+  height: 100%;
+  @media screen and (min-width: 600px){
+    padding: 0 50px;
+  }
+}
+
 
 .text {
   padding-top: 10px;
@@ -10,20 +30,8 @@
 
 .mat-elevation-z2 {
   height: 100%;
-  overflow-y: scroll;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
 }
 
-.mat-elevation-z2::-webkit-scrollbar {
-  display: none;
-}
-
-mat-nav-list {
-  border-right: 1px solid rgba(0,0,0,.12);
-  position: sticky;
-  top: 0;
-}
 
  ::ng-deep.rating:focus {
   outline:0 !important;

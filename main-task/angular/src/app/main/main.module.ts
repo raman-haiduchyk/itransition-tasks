@@ -16,7 +16,7 @@ import { FilterService } from './services/filter.service';
 import { ReaderComponent } from './components/reader/reader.component';
 import { ChapterComponent } from './components/chapter/chapter.component';
 import { StarRatingModule } from 'angular-star-rating';
-import { CommmetsComponent } from './components/commmets/commmets.component';
+import { CommentsComponent } from './components/commmets/comments.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +28,7 @@ import { CommmetsComponent } from './components/commmets/commmets.component';
     FilterPipe,
     ReaderComponent,
     ChapterComponent,
-    CommmetsComponent,
+    CommentsComponent,
   ],
   imports: [
     CommonModule,

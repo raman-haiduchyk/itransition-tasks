@@ -12,12 +12,8 @@ export class AuthGuard implements CanLoad, CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
   private async refreshTokens(): Promise<boolean> {
-    const tokenModel: Tokens = {
-      accessToken: localStorage.getItem('accessToken'),
-      refreshToken: localStorage.getItem('refreshToken'),
-    };
 
-    if (!tokenModel.accessToken || !tokenModel.refreshToken) {
+    if (!this.authService.isUserPotentialAuthenticated()) {
       this.router.navigate(['auth/login'], { queryParams: { returnUrl: this.router.url } });
       this.authService.sendAuthStateChangeNotification(false);
       return false;
@@ -25,15 +21,14 @@ export class AuthGuard implements CanLoad, CanActivate {
 
     let result: boolean = null;
 
-    await this.authService.refreshToken('token/refresh', tokenModel).toPromise()
+    await this.authService.refreshToken('token/refresh').toPromise()
     .then(
       (res) => {
         localStorage.setItem('accessToken', res.accessToken);
         localStorage.setItem('refreshToken', res.refreshToken);
         this.authService.sendAuthStateChangeNotification(true);
         result = true;
-      })
-    .catch(
+      },
       () => {
         this.router.navigate(['auth/login'], { queryParams: { returnUrl: this.router.url } });
         this.authService.sendAuthStateChangeNotification(false);
@@ -44,17 +39,14 @@ export class AuthGuard implements CanLoad, CanActivate {
     return result;
   }
 
-  public canLoad(
-    route: Route): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
+  public canLoad(): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
     if (this.authService.isUserAuthenticated()) {
       return true;
     }
-    return this.refreshTokens();
+    this.refreshTokens();
   }
 
-  public canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+  public canActivate(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if (this.authService.isUserAuthenticated()) {
       return true;
     }

@@ -3,11 +3,11 @@ import { UserComment } from 'src/app/core/models/comment.model';
 import { RequestService } from 'src/app/core/services/request.service';
 
 @Component({
-  selector: 'app-commmets',
-  templateUrl: './commmets.component.html',
-  styleUrls: ['./commmets.component.scss']
+  selector: 'app-comments',
+  templateUrl: './comments.component.html',
+  styleUrls: ['./comments.component.scss']
 })
-export class CommmetsComponent implements OnInit {
+export class CommentsComponent implements OnInit {
 
   @Input() public funficId: string;
 

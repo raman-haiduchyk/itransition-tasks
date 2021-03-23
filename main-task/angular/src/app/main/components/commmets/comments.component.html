@@ -1,0 +1,15 @@
+<h2>Comments:</h2>
+<div class="comments" fxLayout="column" fxLayoutGap="10px">
+  <div *ngFor="let comment of comments" class="comment">
+    <mat-card-header fxLayout="row" fxLayoutGap="5px">
+      <img mat-card-avatar src='https://material.angular.io/assets/img/examples/shiba1.jpg'>
+      <img *ngIf="comment.avatar" mat-card-avatar src="{{comment.avatar}}">
+      <div fxLayout="column">
+        <p class="author">{{comment.author}}</p>
+        <p class="text"> {{comment.text}} </p>
+        <span class="date"> {{comment.createdAt | date : 'shortDate'}}</span>
+      </div>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+  </div>
+</div>

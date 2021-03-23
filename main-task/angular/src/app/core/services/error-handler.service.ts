@@ -3,13 +3,14 @@ import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ErrorHandlerService implements HttpInterceptor {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private authService: AuthService) { }
 
   private handleError(error: HttpErrorResponse): string {
     if (error.status === 404) {
@@ -30,6 +31,9 @@ export class ErrorHandlerService implements HttpInterceptor {
     if (this.router.url.startsWith('/auth/login')) {
       return 'Wrong login or password';
     } else {
+      if (this.authService.isUserPotentialAuthenticated()) {
+
+      }
       this.router.navigate(['/auth/login'], { queryParams: { returnUrl: this.router.url }});
       return error.message;
     }
