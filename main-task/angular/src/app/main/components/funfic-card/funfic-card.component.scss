@@ -15,10 +15,7 @@ img {
   font-size:larger;
 }
 
-.rating {
-  text-align: right;
-}
-
-mat-card{
+::ng-deep.mat-card:not([class*=mat-elevation-z]){
+  box-shadow: none;
   border: 1px solid rgba($color: #757575, $alpha: 0.4);
 }

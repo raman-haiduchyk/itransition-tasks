@@ -16,17 +16,14 @@ export class ReaderComponent implements OnInit {
   public itemSub: Subscription;
 
   public funfic: Funfic;
-  public chapters: Chapter[];
   public currentChapter: number = 0;
   public rating: number = 3;
 
   public mode: string;
   public opened: boolean;
 
-  public isAuthenticated: boolean;
-
   constructor(
-    private route: ActivatedRoute, private router: Router, private requestService: RequestService, private authService: AuthService
+    private route: ActivatedRoute, private router: Router, private requestService: RequestService
   ) { }
 
   private checkInnerWidth(): void {
@@ -41,16 +38,12 @@ export class ReaderComponent implements OnInit {
 
   public ngOnInit(): void {
 
-    this.isAuthenticated = this.authService.isUserAuthenticated();
-
-    if (!this.isAuthenticated) {
-
-    }
-
     this.route.params.subscribe(
       params => {
-        this.requestService.getFunficByIdResponse(params.id).subscribe(res => this.funfic = res);
-        this.requestService.getChaptersResponse(params.id).subscribe(res => this.chapters = res);
+        this.requestService.getFunficByIdResponse(params.id).subscribe(funfic => {
+          this.funfic = funfic;
+          this.requestService.getChaptersResponse(params.id).subscribe(chapters => this.funfic.chapters = chapters);
+        });
       }
     );
 

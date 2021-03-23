@@ -1,5 +1,5 @@
-<div fxFlex fxLayout fxLayoutAlign="end">
-  <mat-nav-list class="horizontal" fxLayout="row" fxLayoutAlign="end">
+<div fxLayout="row" fxLayoutAlign="center center">
+  <mat-nav-list class="horizontal" fxLayout="row">
     <a mat-list-item (click)="navigate('')">Main</a>
     <a mat-list-item *ngIf="!isUserAuthenticated" (click)="navigate('auth')">Login</a>
     <a mat-list-item *ngIf="!isUserAuthenticated" (click)="navigate('auth/register')">Register</a>

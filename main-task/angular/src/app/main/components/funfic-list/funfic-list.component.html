@@ -1,4 +1,18 @@
-<app-funfic-card *ngFor="let funfic of funfics$ | async | filter : dateFilterState"
-  [funficInfo]="funfic"
-  [itemId]="funfic.id"
-></app-funfic-card>
+<mat-sidenav-container class="nav-container mat-elevation-z2">
+  <mat-sidenav #sidenav [mode]="mode" [opened]="opened">
+    <button mat-icon-button (click)="sidenav.toggle()" fxHide.gt-xs><mat-icon>close</mat-icon></button>
+    <h2>Filters</h2>
+    <app-filter-block></app-filter-block>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="content" fxLayout="column" fxLayoutAlign="auto center" fxLayoutGap="10px">
+
+    <button class="toggle-button" mat-stroked-button (click)="sidenav.toggle()" fxHide.gt-xs>Chapters</button>
+    <app-funfic-card *ngFor="let funfic of funfics$ | async"
+      [funficInfo]="funfic"
+      [itemId]="funfic.id"
+    ></app-funfic-card>
+  </mat-sidenav-content>
+
+</mat-sidenav-container>
+

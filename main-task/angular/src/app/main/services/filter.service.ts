@@ -5,53 +5,61 @@ import { EventEmitter, Injectable } from '@angular/core';
 })
 export class FilterService {
   public dateFilter: boolean = null;
-  public salaryFilter: boolean = null;
-  public minSalaryFilter: number = null;
+  public scoreFilter: boolean = null;
+  public viewsFilter: boolean = null;
   public wordFilter: string = null;
-  public specFilter: string[] = [];
+  public tagsFilter: string[] = [];
 
-  public onFilterChange: EventEmitter<[boolean, boolean, string, string[], number]> = new EventEmitter();
+  public onFilterChange: EventEmitter<[boolean, boolean, string, string[], boolean]> = new EventEmitter();
 
   constructor() { }
 
   public resetFilters(): void {
     this.dateFilter = null;
-    this.salaryFilter = null;
+    this.scoreFilter = null;
+    this.viewsFilter = null;
     this.wordFilter = null;
-    this.minSalaryFilter = null;
-    this.specFilter = [];
+    this.tagsFilter = [];
   }
 
   public changeDateFilter(): void {
-    this.salaryFilter = null;
+    this.scoreFilter = null;
+    this.viewsFilter = null;
 
     this.dateFilter != null
       ? this.dateFilter = !this.dateFilter
       : this.dateFilter = true;
-    this.onFilterChange.emit([this.dateFilter, this.salaryFilter, this.wordFilter, this.specFilter, this.minSalaryFilter]);
+    this.onFilterChange.emit([this.dateFilter, this.scoreFilter, this.wordFilter, this.tagsFilter, this.viewsFilter]);
   }
 
-  public changeSalaryFilter(): void {
+  public changeScoreFilter(): void {
     this.dateFilter = null;
+    this.viewsFilter = null;
 
-    this.salaryFilter != null
-      ? this.salaryFilter = !this.salaryFilter
-      : this.salaryFilter = true;
-    this.onFilterChange.emit([this.dateFilter, this.salaryFilter, this.wordFilter, this.specFilter, this.minSalaryFilter]);
+    this.scoreFilter != null
+      ? this.scoreFilter = !this.scoreFilter
+      : this.scoreFilter = true;
+    this.onFilterChange.emit([this.dateFilter, this.scoreFilter, this.wordFilter, this.tagsFilter, this.viewsFilter]);
   }
 
   public changeWordFilter(word: string): void {
     this.wordFilter = word;
-    this.onFilterChange.emit([this.dateFilter, this.salaryFilter, this.wordFilter, this.specFilter, this.minSalaryFilter]);
+    this.onFilterChange.emit([this.dateFilter, this.scoreFilter, this.wordFilter, this.tagsFilter, this.viewsFilter]);
   }
 
-  public changeMinSalaryFilter(minSalary: number): void {
-    this.minSalaryFilter = minSalary;
-    this.onFilterChange.emit([this.dateFilter, this.salaryFilter, this.wordFilter, this.specFilter, this.minSalaryFilter]);
+  public changeViewsFilter(): void {
+    this.dateFilter = null;
+    this.scoreFilter = null;
+
+    this.viewsFilter != null
+      ? this.viewsFilter = !this.viewsFilter
+      : this.viewsFilter = true;
+
+    this.onFilterChange.emit([this.dateFilter, this.scoreFilter, this.wordFilter, this.tagsFilter, this.viewsFilter]);
   }
 
-  public changeSpecFilter(specializations: string[]): void {
-    this.specFilter = specializations;
-    this.onFilterChange.emit([this.dateFilter, this.salaryFilter, this.wordFilter, this.specFilter, this.minSalaryFilter]);
+  public changeTagsFilter(specializations: string[]): void {
+    this.tagsFilter = specializations;
+    this.onFilterChange.emit([this.dateFilter, this.scoreFilter, this.wordFilter, this.tagsFilter, this.viewsFilter]);
   }
 }

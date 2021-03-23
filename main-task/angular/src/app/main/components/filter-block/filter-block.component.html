@@ -1,44 +1,18 @@
 
-  <div>
-    Sorting by:
+  <div fxLayout="column" class="filter">
     <button mat-stroked-button color='primary' (click)="changeDateFilterState()">Date{{dateArrowChar}}</button>
-    <button mat-stroked-button color='primary' (click)="changeSalaryFilterState()">Salary{{salaryArrowChar}}</button>
+    <button mat-stroked-button color='primary' (click)="changeScoreFilterState()">Rating{{scoreArrowChar}}</button>
+    <button mat-stroked-button color='primary' (click)="changeViewsFilterState()">Score count{{viewsArrowChar}}</button>
+
+    <mat-form-field class="filter-input">
+      <mat-label>Name, description or genre</mat-label>
+      <input matInput id="filter-word-input" autocomplete="off" >
+    </mat-form-field>
+
+    <mat-form-field class="filter-input" appearance="outline">
+      <mat-label>Tags</mat-label>
+      <input matInput id="filter-word-input" autocomplete="off" >
+    </mat-form-field>
   </div>
 
 
-  <mat-form-field class="filter-input">
-    <mat-label>By company or vacancy name</mat-label>
-    <input matInput id="filter-word-input" autocomplete="off" >
-  </mat-form-field>
-
-  <mat-form-field class="filter-input">
-    <mat-label>By minimal salary</mat-label>
-    <input matInput id="filter-salary-input" autocomplete="off" type="number" step="10" min="0" value="0">
-    <span matSuffix>$</span>
-  </mat-form-field>
-
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        Choose specializations:
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <mat-selection-list #specs (selectionChange)='changeSpecFilterState(specs.selectedOptions.selected)'>
-      <mat-list-option value='programmer'>
-        Programmer
-      </mat-list-option>
-
-      <mat-list-option value='teacher'>
-        Teacher
-      </mat-list-option>
-
-      <mat-list-option value='driver'>
-        Driver
-      </mat-list-option>
-
-      <mat-list-option value='doctor'>
-        Doctor
-      </mat-list-option>
-    </mat-selection-list>
-
-  </mat-expansion-panel>

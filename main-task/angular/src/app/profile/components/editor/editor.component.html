@@ -18,28 +18,17 @@
         <input matInput type="text" [(ngModel)]="funfic.genre">
       </mat-form-field>
 
-      <mat-form-field class="input-field">
+      <mat-form-field class="input-field" appearance="outline">
         <mat-label>Tags</mat-label>
 
         <mat-chip-list #chipList aria-label="Fruit selection">
-          <mat-chip
-            color="accent"
-            selectable
-            removable
-            (removed)="remove(tag)"
-            *ngFor="let tag of funfic.tags">
+          <mat-chip color="accent" selectable removable (removed)="remove(tag)" *ngFor="let tag of funfic.tags">
             {{tag}} <mat-icon matChipRemove>cancel</mat-icon>
           </mat-chip>
 
-          <input
-            #tagsInput
-            [formControl]="tagsCtrl"
-            placeholder="New tag..."
-            [matChipInputFor]="chipList"
-            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-            [matAutocomplete]="auto"
-            (matChipInputTokenEnd)="add($event)"
-          >
+          <input #tagsInput [formControl]="tagsCtrl" placeholder="New tag..." [matChipInputFor]="chipList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matAutocomplete]="auto" (matChipInputTokenEnd)="add($event)">
+
         </mat-chip-list>
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
           <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">

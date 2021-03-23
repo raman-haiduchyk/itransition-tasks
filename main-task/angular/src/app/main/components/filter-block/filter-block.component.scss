@@ -1,15 +1,6 @@
-:host {
-  display: flex;
-  flex-direction: column;
-  position: sticky;
-  top: 0;
-  background-color:white;
+.filter {
   padding: 5px;
-  -webkit-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.5);
-  -moz-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.5);
-  box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.5);
-  border-radius: 5px;
-  margin-bottom: auto;
+  width: 250px;
 }
 
 button {
@@ -23,7 +14,3 @@ button {
   margin: 3px;
 }
 
-mat-selection-list {
-  max-height: 350px;
-  overflow: auto;
-}

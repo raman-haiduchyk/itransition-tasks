@@ -15,7 +15,6 @@ export class HeaderComponent {
   constructor(private authService: AuthService, private router: Router) {
     this.authService.authChanged
     .subscribe(res => {
-      console.log(res);
       this.isUserAuthenticated = res;
       this.isUserAdmin = authService.isUserAdmin();
     });

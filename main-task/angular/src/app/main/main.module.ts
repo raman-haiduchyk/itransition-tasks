@@ -6,7 +6,6 @@ import { SharedModule } from '../shared/shared.module';
 
 import { FunficListComponent } from './components/funfic-list/funfic-list.component';
 import { FunficCardComponent } from './components/funfic-card/funfic-card.component';
-import { MainPageComponent } from './components/main-page/main-page.component';
 import { FilterBlockComponent } from './components/filter-block/filter-block.component';
 import { StatBlockComponent } from './components/stat-block/stat-block.component';
 
@@ -22,7 +21,6 @@ import { CommentsComponent } from './components/commmets/comments.component';
   declarations: [
     FunficListComponent,
     FunficCardComponent,
-    MainPageComponent,
     FilterBlockComponent,
     StatBlockComponent,
     FilterPipe,
@@ -39,7 +37,6 @@ import { CommentsComponent } from './components/commmets/comments.component';
   exports: [
     FunficListComponent,
     FunficCardComponent,
-    MainPageComponent,
     FilterBlockComponent,
     StatBlockComponent,
     FilterPipe,

@@ -10,7 +10,7 @@ import { FilterService } from '../../services/filter.service';
   templateUrl: './funfic-list.component.html',
   styleUrls: ['./funfic-list.component.scss']
 })
-export class FunficListComponent {
+export class FunficListComponent implements OnInit {
 
   public funfics$: Observable<Funfic[]>;
 
@@ -19,6 +19,9 @@ export class FunficListComponent {
   public wordFilterState: string = null;
   public specFilterState: string[] = [];
   public minSalaryFilterState: number = 0;
+
+  public mode: string;
+  public opened: boolean;
 
   constructor(private filterService: FilterService, private requestService: RequestService) {
     filterService.onFilterChange.subscribe((filters) => {
@@ -31,4 +34,22 @@ export class FunficListComponent {
 
     this.funfics$ = requestService.getFunficResponse();
    }
+
+  private checkInnerWidth(): void {
+    if (window.innerWidth > 599) {
+      this.mode = 'side';
+      this.opened = true;
+    } else {
+      this.mode = 'over';
+      this.opened = false;
+    }
+  }
+
+  public ngOnInit(): void {
+    this.checkInnerWidth();
+
+    window.onresize = () => {
+      this.checkInnerWidth();
+    };
+  }
 }

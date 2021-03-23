@@ -6,9 +6,17 @@
       {{funficInfo.shortDescription}}
     </mat-card-content>
 
-  <mat-card-content class="rating">
-    <div>Rating: {{funficInfo.rating}}</div>
-    <div>Votes: {{funficInfo.scoreCount}}</div>
+  <mat-card-content fxLayout="row" fxLayoutAlign="end">
+    <div><star-rating
+          [matTooltip]= "funficInfo.scoreCount+' scores : '+funficInfo.rating"
+          [matTooltipPosition]="'above'"
+          [labelText]="'Users score'"
+          [starType]="'svg'"
+          [rating]="funficInfo.rating"
+          [showHalfStars]="true"
+          [readOnly]="true"
+        ></star-rating>
+    </div>
   </mat-card-content>
 
   <mat-chip-list fxLayoutAlign="end">

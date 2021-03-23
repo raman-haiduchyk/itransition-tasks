@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ReaderComponent } from './components/reader/reader.component';
-import { MainPageComponent } from './components/main-page/main-page.component';
+import { FunficListComponent } from './components/funfic-list/funfic-list.component';
 
 const routes: Routes = [
-  { path: '', component: MainPageComponent },
+  { path: '', component: FunficListComponent },
   { path: ':id', component: ReaderComponent },
 ];
 

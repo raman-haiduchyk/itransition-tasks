@@ -1,4 +1,8 @@
 <h2>Comments:</h2>
+<mat-form-field class="input" appearance="outline" *ngIf="isAuthenticated">
+  <mat-label>Write a comment</mat-label>
+  <textarea matInput></textarea>
+</mat-form-field>
 <div class="comments" fxLayout="column" fxLayoutGap="10px">
   <div *ngFor="let comment of comments" class="comment">
     <mat-card-header fxLayout="row" fxLayoutGap="5px">

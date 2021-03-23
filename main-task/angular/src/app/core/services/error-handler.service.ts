@@ -32,10 +32,11 @@ export class ErrorHandlerService implements HttpInterceptor {
       return 'Wrong login or password';
     } else {
       if (this.authService.isUserPotentialAuthenticated()) {
-
       }
-      this.router.navigate(['/auth/login'], { queryParams: { returnUrl: this.router.url }});
-      return error.message;
+      {
+        this.router.navigate(['/auth/login'], { queryParams: { returnUrl: this.router.url }});
+        return error.message;
+      }
     }
   }
 
