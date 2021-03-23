@@ -1,6 +1,6 @@
 import { UserComment } from '../models/comment.model';
 
-export const mockedComments: UserComment[] = [
+export const commentResponse: UserComment[] = [
   {
     author: 'author',
     text: 'comment',

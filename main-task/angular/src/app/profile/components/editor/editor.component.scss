@@ -2,6 +2,10 @@
   height: 100%;
 }
 
+.input-field {
+  margin-top: 10px;
+}
+
 .content {
   overflow: hidden;
 }
@@ -33,7 +37,10 @@ quill-editor {
 }
 
 .list {
-  min-width: 200px;
+  min-width: 250px;
+  @media screen and (min-width: 600px) {
+    min-width: 300px;
+  }
   border: solid 1px #ccc;
   min-height: 60px;
   display: block;

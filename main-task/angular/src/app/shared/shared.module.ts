@@ -18,9 +18,10 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatChipsModule } from '@angular/material/chips';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatRippleModule } from '@angular/material/core';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [],
@@ -43,9 +44,11 @@ import { MatRippleModule } from '@angular/material/core';
     MatSortModule,
     MatChipsModule,
     MatTooltipModule,
+    MatAutocompleteModule,
     FlexLayoutModule,
     DragDropModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [
     MatInputModule,
@@ -59,6 +62,7 @@ import { MatRippleModule } from '@angular/material/core';
     MatListModule,
     MatRippleModule,
     MatSnackBarModule,
+    MatAutocompleteModule,
     MatSidenavModule,
     MatToolbarModule,
     MatTableModule,
@@ -66,7 +70,8 @@ import { MatRippleModule } from '@angular/material/core';
     MatChipsModule, DragDropModule,
     MatTooltipModule,
     FlexLayoutModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class SharedModule { }

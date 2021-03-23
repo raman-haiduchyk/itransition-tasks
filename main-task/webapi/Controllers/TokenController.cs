@@ -31,7 +31,7 @@ namespace webapi.Controllers
         {
             if (tokenModel is null)
             {
-                return BadRequest("Invalid client request");
+                return Unauthorized("Invalid client request");
             }
 
             string accessToken = tokenModel.AccessToken;
@@ -42,7 +42,7 @@ namespace webapi.Controllers
             var user = await _userManager.FindByNameAsync(principal.Identity.Name);
             if (user == null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
             {
-                return BadRequest("Invalid client request");
+                return Unauthorized("Invalid tokens");
             }
 
             var newAccessToken = await _jwtHandler.GenerateAccessToken(user);
