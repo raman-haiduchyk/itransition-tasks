@@ -17,6 +17,6 @@
 
   <mat-card-actions class="add-info">
     <button mat-stroked-button color="basic" (click)="showDetailedInfo()">More</button>
-    <div>{{date.toDateString()}}</div>
+    <div>{{funficInfo.createdAt | date : 'shortDate'}}</div>
   </mat-card-actions>
 </mat-card>

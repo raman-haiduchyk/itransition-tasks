@@ -19,6 +19,8 @@ import { MatChipsModule } from '@angular/material/chips';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatRippleModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [],
@@ -37,10 +39,12 @@ import { FormsModule } from '@angular/forms';
     MatSidenavModule,
     MatToolbarModule,
     MatTableModule,
+    MatRippleModule,
     MatSortModule,
     MatChipsModule,
     MatTooltipModule,
     FlexLayoutModule,
+    DragDropModule,
     FormsModule
   ],
   exports: [
@@ -53,12 +57,13 @@ import { FormsModule } from '@angular/forms';
     MatExpansionModule,
     MatCheckboxModule,
     MatListModule,
+    MatRippleModule,
     MatSnackBarModule,
     MatSidenavModule,
     MatToolbarModule,
     MatTableModule,
     MatSortModule,
-    MatChipsModule,
+    MatChipsModule, DragDropModule,
     MatTooltipModule,
     FlexLayoutModule,
     FormsModule

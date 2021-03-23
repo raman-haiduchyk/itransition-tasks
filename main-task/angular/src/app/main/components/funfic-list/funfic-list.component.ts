@@ -6,11 +6,11 @@ import { mockedResponse } from '../../../core/mocked/response';
 import { FilterService } from '../../services/filter.service';
 
 @Component({
-  selector: 'app-job-list',
-  templateUrl: './job-list.component.html',
-  styleUrls: ['./job-list.component.scss']
+  selector: 'app-funfic-list',
+  templateUrl: './funfic-list.component.html',
+  styleUrls: ['./funfic-list.component.scss']
 })
-export class JobListComponent {
+export class FunficListComponent {
 
   public funfics$: Observable<Funfic[]>;
 

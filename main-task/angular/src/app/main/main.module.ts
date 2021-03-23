@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { MainRoutingModule } from './main-routing.module';
 import { SharedModule } from '../shared/shared.module';
 
-import { JobListComponent } from './components/funfic-list/job-list.component';
+import { FunficListComponent } from './components/funfic-list/funfic-list.component';
 import { FunficCardComponent } from './components/funfic-card/funfic-card.component';
 import { MainPageComponent } from './components/main-page/main-page.component';
 import { FilterBlockComponent } from './components/filter-block/filter-block.component';
@@ -13,20 +13,22 @@ import { StatBlockComponent } from './components/stat-block/stat-block.component
 import { FilterPipe } from './pipes/filter.pipe';
 
 import { FilterService } from './services/filter.service';
-import { ReadComponent } from './components/read/read.component';
+import { ReaderComponent } from './components/reader/reader.component';
 import { ChapterComponent } from './components/chapter/chapter.component';
 import { StarRatingModule } from 'angular-star-rating';
+import { CommmetsComponent } from './components/commmets/commmets.component';
 
 @NgModule({
   declarations: [
-    JobListComponent,
+    FunficListComponent,
     FunficCardComponent,
     MainPageComponent,
     FilterBlockComponent,
     StatBlockComponent,
     FilterPipe,
-    ReadComponent,
+    ReaderComponent,
     ChapterComponent,
+    CommmetsComponent,
   ],
   imports: [
     CommonModule,
@@ -35,13 +37,13 @@ import { StarRatingModule } from 'angular-star-rating';
     StarRatingModule.forRoot(),
   ],
   exports: [
-    JobListComponent,
+    FunficListComponent,
     FunficCardComponent,
     MainPageComponent,
     FilterBlockComponent,
     StatBlockComponent,
     FilterPipe,
-    ReadComponent,
+    ReaderComponent,
     ChapterComponent,
   ],
   providers: [

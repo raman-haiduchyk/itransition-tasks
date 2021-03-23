@@ -16,7 +16,6 @@ export class FunficCardComponent implements OnInit {
   constructor(private router: Router) { }
 
   public ngOnInit(): void {
-    this.date = new Date (this.funficInfo.createdAt);
   }
 
   public showDetailedInfo(): void {

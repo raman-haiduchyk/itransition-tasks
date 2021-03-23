@@ -8,10 +8,10 @@ import { RequestService } from 'src/app/core/services/request.service';
 
 @Component({
   selector: 'app-detailed-info',
-  templateUrl: './read.component.html',
-  styleUrls: ['./read.component.scss']
+  templateUrl: './reader.component.html',
+  styleUrls: ['./reader.component.scss']
 })
-export class ReadComponent implements OnInit {
+export class ReaderComponent implements OnInit {
   public itemSub: Subscription;
 
   public funfic: Funfic;

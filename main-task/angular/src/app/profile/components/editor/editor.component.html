@@ -1,0 +1,44 @@
+<mat-sidenav-container class="nav-container mat-elevation-z2">
+
+  <mat-sidenav #sidenav [mode]="mode" [opened]="opened">
+    <button mat-icon-button (click)="sidenav.toggle()" fxHide.gt-xs><mat-icon>close</mat-icon></button>
+    <div class="chap-list" fxLayout="column" *ngIf="chapters">
+      <h2>Chapters:</h2>
+      <div cdkDropList class="list" (cdkDropListDropped)="drop($event)">
+        <div matRipple class="chapter" *ngFor="let chapter of chapters" cdkDrag>{{chapter.name}}</div>
+      </div>
+
+      <mat-form-field>
+        <mat-label>Genre</mat-label>
+        <input matInput type="text" [(ngModel)]="funfic.genre">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Tags</mat-label>
+        <mat-chip-list #chipList aria-label="Fruit selection">
+          <mat-chip color="accent" selectable removable *ngFor="let tag of funfic.tags">
+            {{tag}}
+            <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip>
+          <input
+            placeholder="New tag..."
+            [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+
+          >
+        </mat-chip-list>
+      </mat-form-field>
+
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="content" fxLayout="column">
+      <button mat-stroked-button (click)="sidenav.toggle()" class="toggle-button" fxHide.gt-xs>Chapters and tags</button>
+      <div class="editor" fxLayout="column" fxLayoutAlign="start center" *ngIf="funfic && chapters">
+        <h1>{{funfic.name}}</h1>
+        <quill-editor></quill-editor>
+      </div>
+  </mat-sidenav-content>
+
+</mat-sidenav-container>
+
