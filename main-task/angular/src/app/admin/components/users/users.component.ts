@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -19,7 +20,7 @@ export class UsersComponent implements OnInit {
   @ViewChild(MatPaginator)public paginator: MatPaginator;
   @ViewChild(MatSort)public sort: MatSort;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, public dialog: MatDialog) { }
 
   public ngOnInit(): void {
     this.userService.getUsers()
@@ -31,7 +32,7 @@ export class UsersComponent implements OnInit {
   }
 
   public banUser(id: string): void {
-    console.log(id);
+
     this.userService.banUser(id)
       .subscribe(res =>
         this.users.data = res
@@ -39,15 +40,15 @@ export class UsersComponent implements OnInit {
   }
 
   public deleteUser(id: string): void {
-    console.log(id);
-    this.userService.deletUser(id)
-      .subscribe(res =>
-        this.users.data = res
-      );
+    this.dialog.open(DialogTemplateComponent);
+    // this.userService.deletUser(id)
+    //   .subscribe(res =>
+    //     this.users.data = res
+    //   );
   }
 
   public changeRole(id: string): void {
-    console.log(id);
+
     this.userService.changeRole(id)
       .subscribe(res =>
         this.users.data = res
@@ -64,3 +65,9 @@ export class UsersComponent implements OnInit {
   }
 
 }
+
+@Component({
+  selector: 'dialog-template',
+  templateUrl: './dialog.template.html',
+})
+export class DialogTemplateComponent {}

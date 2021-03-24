@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 
 import { AdminRoutingModule } from './admin-routing.module';
 import { SharedModule } from '../shared/shared.module';
-import { UsersComponent } from './components/users/users.component';
+import { DialogTemplateComponent, UsersComponent } from './components/users/users.component';
 import { UserService } from './services/user.service';
 
 @NgModule({
   declarations: [
-    UsersComponent
+    UsersComponent, DialogTemplateComponent
   ],
   imports: [
     CommonModule,

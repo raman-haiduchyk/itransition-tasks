@@ -23,7 +23,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatRippleModule } from '@angular/material/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-
+import { MatDialogModule } from '@angular/material/dialog';
 @NgModule({
   declarations: [],
   imports: [
@@ -38,6 +38,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatCheckboxModule,
     MatListModule,
     MatSnackBarModule,
+    MatDialogModule,
     MatSidenavModule,
     MatToolbarModule,
     MatTableModule,
@@ -69,6 +70,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatSidenavModule,
     MatToolbarModule,
     MatTableModule,
+    MatDialogModule,
     MatSortModule,
     MatChipsModule, DragDropModule,
     MatTooltipModule,
