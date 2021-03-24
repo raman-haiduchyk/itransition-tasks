@@ -70,7 +70,7 @@ export class AuthService {
     const refreshToken: string = localStorage.getItem('refreshToken');
     const tokens: Tokens = {accessToken: accessToken, refreshToken: refreshToken };
     return this.http.post<Tokens>(this.createCompleteRoute(route, this.url), tokens).pipe(
-      mergeMap((res, index) => {
+      switchMap((res) => {
         console.log('refreshed');
         console.log(res);
         localStorage.setItem('accessToken', res.accessToken);

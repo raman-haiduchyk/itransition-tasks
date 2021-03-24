@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse, HttpClient } from '@angular/common/http';
+import { Observable, of, Subject, throwError } from 'rxjs';
+import { catchError, switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
 
@@ -10,50 +10,72 @@ import { AuthService } from './auth.service';
 })
 export class ErrorHandlerService implements HttpInterceptor {
 
-  constructor(private router: Router, private authService: AuthService) { }
+  // TODO: parallel processing of refresh requests and avoiding refresh loops
+  public refreshTokenInProgress: boolean = false;
 
-  private handleError(error: HttpErrorResponse): string {
+  public tokenRefreshedSource: Subject<boolean> = new Subject();
+  public tokenRefreshed$: Observable<boolean> = this.tokenRefreshedSource.asObservable();
+
+  constructor(private router: Router, private authService: AuthService, private http: HttpClient) { }
+
+  private handleOtherErrors(error: HttpErrorResponse): void {
     if (error.status === 404) {
-      return this.handleNotFound(error);
-    } else if (error.status === 401) {
-      return this.handleUnauthorized(error);
+      this.handleNotFound(error);
     } else if (error.status === 403) {
-      return this.handleForbidden(error);
+      this.handleForbidden(error);
     }
   }
 
-  private handleForbidden(error: HttpErrorResponse): string {
+  private handleForbidden(error: HttpErrorResponse): void {
     this.router.navigate(['forbidden'], { queryParams: { returnUrl: this.router.url }});
-    return 'Forbidden';
   }
 
-  private handleUnauthorized(error: HttpErrorResponse): string {
-    if (this.router.url.startsWith('/auth/login')) {
-      return 'Wrong login or password';
+  // tslint:disable: no-any typedef
+  private handleUnauthorized(error: HttpErrorResponse, req: HttpRequest<any>): Observable<any> {
+    if (this.authService.isUserPotentialAuthenticated()) {
+      console.log('interceptor refreshing');
+      return this.authService.refreshToken('token/refresh').pipe(
+        switchMap((result) => {
+          if (!result) {
+            return throwError(error);
+          }
+          const newReq = req.clone({
+            setHeaders: {
+              Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+            }
+          });
+          return of(newReq);
+        }),
+        catchError(_ => {
+          this.router.navigate(['/auth/login'], { queryParams: { returnUrl: this.router.url }});
+          return throwError(error);
+        }));
+
     } else {
-      if (this.authService.isUserPotentialAuthenticated()) {
-      }
-      {
+      if (!this.router.url.startsWith('/auth/login')) {
         this.router.navigate(['/auth/login'], { queryParams: { returnUrl: this.router.url }});
-        return error.message;
+        return throwError(error);
       }
     }
   }
 
-  private handleNotFound(error: HttpErrorResponse): string {
+  private handleNotFound(error: HttpErrorResponse): void {
     this.router.navigate(['notfound']);
-    return error.message;
   }
 
-  // tslint:disable-next-line: no-any
+  // tslint:disable: no-any
   public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req)
     .pipe(
       catchError((error: HttpErrorResponse) => {
-        const errorMessage: string = this.handleError(error);
-        // error.error.errorMessage = errorMessage;
-        console.log(error);
-        return throwError(error);
+        if (error.status === 401) {
+          return this.handleUnauthorized(error, req).pipe(
+            switchMap((request) => next.handle(request))
+          );
+        } else {
+          this.handleOtherErrors(error);
+          return throwError(error);
+        }
       })
     );
   }
