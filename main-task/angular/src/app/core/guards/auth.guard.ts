@@ -19,34 +19,23 @@ export class AuthGuard implements CanLoad, CanActivate {
       return false;
     }
 
-    let result: boolean = null;
+    return this.authService.refreshToken('token/refresh').toPromise();
 
-    await this.authService.refreshToken('token/refresh').toPromise()
-    .then(
-      (res) => {
-        localStorage.setItem('accessToken', res.accessToken);
-        localStorage.setItem('refreshToken', res.refreshToken);
-        this.authService.sendAuthStateChangeNotification(true);
-        result = true;
-      },
-      () => {
-        this.router.navigate(['auth/login'], { queryParams: { returnUrl: this.router.url } });
-        this.authService.sendAuthStateChangeNotification(false);
-        result = false;
-      }
-    );
-
-    return result;
   }
 
   public canLoad(): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
-    if (this.authService.isUserAuthenticated()) {
+    if (this.authService.isUserAuthenticated() || this.authService.isUserPotentialAuthenticated()) {
+      console.log('load guarad' + this.router.url);
       return true;
+    } else {
+      this.router.navigate(['auth/login'], { queryParams: { returnUrl: this.router.url } });
+      this.authService.sendAuthStateChangeNotification(false);
+      return false;
     }
-    this.refreshTokens();
   }
 
   public canActivate(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    console.log('activate guarad' + this.router.url);
     if (this.authService.isUserAuthenticated()) {
       return true;
     }

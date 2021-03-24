@@ -3,7 +3,7 @@ import { FacebookLoginProvider, MicrosoftLoginProvider, SocialAuthService, Socia
 import { GoogleLoginProvider } from 'angularx-social-login';
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { Observable, Subject } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AuthResponse } from '../models/auth-res.model';
 import { LoginRequest } from '../models/login-req.model';
@@ -12,6 +12,8 @@ import { RegistrationResponse } from '../models/register-res.model';
 import { Tokens } from '../models/tokens.model';
 import { GoogleAuthRequest } from '../models/google-auth-req.model';
 import { SocialAuthRequest } from '../models/social-auth-req.model';
+import { catchError, concatMap, mergeMap, switchMap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +25,9 @@ export class AuthService {
   private authChangeSub: Subject<boolean> = new Subject<boolean>();
   public authChanged: Observable<boolean> = this.authChangeSub.asObservable();
 
-  constructor(private http: HttpClient, private jwtHelper: JwtHelperService, private externalAuthService: SocialAuthService) { }
+  constructor(
+    private http: HttpClient, private jwtHelper: JwtHelperService, private externalAuthService: SocialAuthService, private router: Router
+    ) { }
 
   private createCompleteRoute(route: string, envAddress: string): string {
     return `${envAddress}/${route}`;
@@ -61,11 +65,27 @@ export class AuthService {
     this.externalAuthService.signOut();
   }
 
-  public refreshToken(route: string): Observable<Tokens> {
+  public refreshToken(route: string): Observable<boolean> {
     const accessToken: string = localStorage.getItem('accessToken');
     const refreshToken: string = localStorage.getItem('refreshToken');
     const tokens: Tokens = {accessToken: accessToken, refreshToken: refreshToken };
-    return this.http.post<Tokens>(this.createCompleteRoute(route, this.url), tokens);
+    return this.http.post<Tokens>(this.createCompleteRoute(route, this.url), tokens).pipe(
+      mergeMap((res, index) => {
+        console.log('refreshed');
+        console.log(res);
+        localStorage.setItem('accessToken', res.accessToken);
+        localStorage.setItem('refreshToken', res.refreshToken);
+        this.sendAuthStateChangeNotification(true);
+        return of(true);
+      }),
+      catchError((error) => {
+        console.log('not refreshed');
+        console.log(error);
+        this.sendAuthStateChangeNotification(false);
+        this.router.navigate(['auth/login'], { queryParams: { returnUrl: this.router.url } });
+        return of(false);
+      })
+    );
   }
 
   public logout(): void {
