@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using webapi.Models;
 
 namespace webapi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210326153528_FieldsUpdate")]
+    partial class FieldsUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -158,33 +160,6 @@ namespace webapi.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("webapi.Models.DbModels.Chapter", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
-
-                    b.Property<string>("FunficId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
-
-                    b.Property<int>("Name")
-                        .HasMaxLength(50)
-                        .HasColumnType("int");
-
-                    b.Property<int>("Number")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Text")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FunficId");
-
-                    b.ToTable("Chapters");
                 });
 
             modelBuilder.Entity("webapi.Models.DbModels.Comment", b =>
@@ -439,15 +414,6 @@ namespace webapi.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("webapi.Models.DbModels.Chapter", b =>
-                {
-                    b.HasOne("webapi.Models.DbModels.Funfic", null)
-                        .WithMany("Chapters")
-                        .HasForeignKey("FunficId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("webapi.Models.DbModels.Comment", b =>
                 {
                     b.HasOne("webapi.Models.DbModels.Funfic", "Funfic")
@@ -497,8 +463,6 @@ namespace webapi.Migrations
 
             modelBuilder.Entity("webapi.Models.DbModels.Funfic", b =>
                 {
-                    b.Navigation("Chapters");
-
                     b.Navigation("Comments");
 
                     b.Navigation("Ratings");

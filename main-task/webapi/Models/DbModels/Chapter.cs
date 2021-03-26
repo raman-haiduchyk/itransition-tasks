@@ -7,28 +7,23 @@ using System.Threading.Tasks;
 
 namespace webapi.Models.DbModels
 {
-    public class Comment
+    public class Chapter
     {
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string Id { get; set; }
 
         [Required]
-        public string UserId { get; set; }
-
-        public User User { get; set; }
-
-
-        [Required]
         public string FunficId { get; set; }
 
-        public Funfic Funfic { get; set; }
-
         [Required]
-        [MaxLength(200)]
+        public int Number { get; set; }
+
+        [MaxLength(50)]
+        [Required]
+        public int Name { get; set; }
+
         public string Text { get; set; }
 
-        [Required]
-        public DateTime Date { get; set; }
     }
 }

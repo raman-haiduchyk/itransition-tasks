@@ -11,6 +11,8 @@ namespace webapi.Models
 
         public DbSet<Tag> Tags { get; set; }
 
+        public DbSet<Chapter> Chapters { get; set; }
+
         public DbSet<Comment> Comments { get; set; }
 
         public DbSet<Rating> Ratings { get; set; }
@@ -52,6 +54,14 @@ namespace webapi.Models
                .HasOne(r => r.User)
                .WithMany(u => u.Ratings)
                .HasForeignKey(r => r.UserId);
+
+            modelBuilder.Entity<Funfic>().HasMany(f => f.Tags)
+                .WithMany(t => t.Funfics)
+                .UsingEntity<FunficTag>(
+                    ft => ft.HasOne(ft => ft.Tag)
+                    .WithMany().HasForeignKey(ft => ft.TagsId),
+                    ft => ft.HasOne(ft => ft.Funfic)
+                   .WithMany().HasForeignKey(ft => ft.FunficsId));
         }
     }
 }

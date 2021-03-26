@@ -3,16 +3,52 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace webapi.Migrations
 {
-    public partial class M2MRealtionsUpdate : Migration
+    public partial class M2MRelationsUpdate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AlterColumn<string>(
+                name: "RefreshToken",
+                table: "AspNetUsers",
+                type: "varchar(255) CHARACTER SET utf8mb4",
+                maxLength: 255,
+                nullable: true,
+                oldClrType: typeof(string),
+                oldType: "longtext CHARACTER SET utf8mb4",
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "LastName",
+                table: "AspNetUsers",
+                type: "varchar(50) CHARACTER SET utf8mb4",
+                maxLength: 50,
+                nullable: true,
+                oldClrType: typeof(string),
+                oldType: "longtext CHARACTER SET utf8mb4",
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "FirstName",
+                table: "AspNetUsers",
+                type: "varchar(50) CHARACTER SET utf8mb4",
+                maxLength: 50,
+                nullable: true,
+                oldClrType: typeof(string),
+                oldType: "longtext CHARACTER SET utf8mb4",
+                oldNullable: true);
+
             migrationBuilder.CreateTable(
                 name: "Funfics",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
-                    UserId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: true)
+                    UserId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    Name = table.Column<string>(type: "varchar(50) CHARACTER SET utf8mb4", maxLength: 50, nullable: false),
+                    Genre = table.Column<string>(type: "varchar(50) CHARACTER SET utf8mb4", maxLength: 50, nullable: false),
+                    Rating = table.Column<byte>(type: "tinyint unsigned", nullable: false),
+                    ScoreCount = table.Column<int>(type: "int", nullable: false),
+                    ShortDescription = table.Column<string>(type: "varchar(500) CHARACTER SET utf8mb4", maxLength: 500, nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -22,7 +58,7 @@ namespace webapi.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -30,7 +66,7 @@ namespace webapi.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
-                    Name = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true)
+                    Name = table.Column<string>(type: "varchar(20) CHARACTER SET utf8mb4", maxLength: 20, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -42,9 +78,9 @@ namespace webapi.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
-                    UserId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: true),
-                    FunficId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: true),
-                    Text = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
+                    UserId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    FunficId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    Text = table.Column<string>(type: "varchar(200) CHARACTER SET utf8mb4", maxLength: 200, nullable: false),
                     Date = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
@@ -55,13 +91,13 @@ namespace webapi.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Comments_Funfics_FunficId",
                         column: x => x.FunficId,
                         principalTable: "Funfics",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -155,6 +191,36 @@ namespace webapi.Migrations
 
             migrationBuilder.DropTable(
                 name: "Funfics");
+
+            migrationBuilder.AlterColumn<string>(
+                name: "RefreshToken",
+                table: "AspNetUsers",
+                type: "longtext CHARACTER SET utf8mb4",
+                nullable: true,
+                oldClrType: typeof(string),
+                oldType: "varchar(255) CHARACTER SET utf8mb4",
+                oldMaxLength: 255,
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "LastName",
+                table: "AspNetUsers",
+                type: "longtext CHARACTER SET utf8mb4",
+                nullable: true,
+                oldClrType: typeof(string),
+                oldType: "varchar(50) CHARACTER SET utf8mb4",
+                oldMaxLength: 50,
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "FirstName",
+                table: "AspNetUsers",
+                type: "longtext CHARACTER SET utf8mb4",
+                nullable: true,
+                oldClrType: typeof(string),
+                oldType: "varchar(50) CHARACTER SET utf8mb4",
+                oldMaxLength: 50,
+                oldNullable: true);
         }
     }
 }
