@@ -7,7 +7,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using webapi.Jwt;
 using webapi.Models;
-using webapi.Models.ActionModels;
+using webapi.Models.AuthModels;
+using webapi.Models.DbModels;
 
 namespace webapi.Controllers
 {

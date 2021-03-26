@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace webapi.Models.Profile
+namespace webapi.Models.ProfileModels
 {
     public class ProfileResponseModel
     {

@@ -13,7 +13,8 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using webapi.Models;
-using webapi.Models.ActionModels;
+using webapi.Models.AuthModels;
+using webapi.Models.DbModels;
 
 namespace webapi.Jwt
 {

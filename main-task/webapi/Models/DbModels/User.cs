@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace webapi.Models
+namespace webapi.Models.DbModels
 {
     public class User: IdentityUser
     {
@@ -17,5 +17,11 @@ namespace webapi.Models
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
+
+        public List<Funfic> Funfics { get; set; } = new List<Funfic>();
+
+        public List<Comment> Comments { get; set; } = new List<Comment>();
+
+        public List<Rating> Ratings { get; set; } = new List<Rating>();
     }
 }

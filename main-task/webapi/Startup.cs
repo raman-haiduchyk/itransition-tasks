@@ -17,6 +17,7 @@ using System.Text;
 using System.Threading.Tasks;
 using webapi.Jwt;
 using webapi.Models;
+using webapi.Models.DbModels;
 
 namespace webapi
 {

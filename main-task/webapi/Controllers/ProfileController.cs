@@ -7,7 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using webapi.Models;
-using webapi.Models.Profile;
+using webapi.Models.DbModels;
+using webapi.Models.ProfileModels;
 using webapi.Models.Users;
 
 namespace webapi.Controllers
