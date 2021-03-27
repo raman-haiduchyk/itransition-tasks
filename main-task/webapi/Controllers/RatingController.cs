@@ -37,7 +37,17 @@ namespace webapi.Controllers
         public async Task<IActionResult> GetComments(RatingRequestModel commentsRequest)
         {
             var comments = _appDbContext.Comments
-                .Where(comment => comment.FunficId == commentsRequest.Id);
+                .Where(comment => comment.FunficId == commentsRequest.Id)
+                .Join(_appDbContext.Users,
+                    c => c.UserId,
+                    u => u.Id,
+                    (c, u) => new
+                    {
+                        author = u.UserName,
+                        text = c.Text,
+                        createdAt = c.Date
+                    });
+
             return StatusCode(200, comments);
         }
 
