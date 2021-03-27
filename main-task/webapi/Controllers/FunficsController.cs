@@ -240,7 +240,7 @@ namespace webapi.Controllers
                 return StatusCode(409);
             }
 
-            return StatusCode(201, task.Entity.Id);
+            return StatusCode(201, new { id = task.Entity.Id });
         }
 
         [Authorize(Roles = "admin")]
@@ -264,7 +264,7 @@ namespace webapi.Controllers
                 return StatusCode(409);
             }
             
-            return StatusCode(201, task.Entity.Id);
+            return StatusCode(201, new { id = task.Entity.Id } );
         }
 
         [Authorize]
