@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using webapi.Models;
 using webapi.Models.AuthModels;
 using webapi.Models.DbModels;
+using webapi.Models.FunficsModels;
 
 namespace webapi.Mapping
 {
@@ -14,6 +15,7 @@ namespace webapi.Mapping
         public MappingProfile()
         {
             CreateMap<RegistrationRequestModel, User>();
+            CreateMap<Chapter, PartialChapter>();
         }
     }
 }

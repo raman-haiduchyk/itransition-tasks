@@ -50,11 +50,14 @@ namespace webapi.Controllers
             var user = await _userManager.FindByIdAsync(usersRequest.Id);
             if (await _userManager.IsInRoleAsync(user, "admin"))
             {
+
+                await _userManager.AddToRoleAsync(user, "user");
                 await _userManager.RemoveFromRoleAsync(user, "admin");
             }
             else
             {
                 await _userManager.AddToRoleAsync(user, "admin");
+                await _userManager.RemoveFromRoleAsync(user, "user");
             }
 
             var admins = await _userManager.GetUsersInRoleAsync("admin");

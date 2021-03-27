@@ -1,5 +1,22 @@
 export const tagsResponse: string[] = [
   'fantasy',
   'erotica',
-  'comedy'
+  'comedy',
+  '18+',
+  'harry potter',
+  'lotr',
+  'lord of the rings',
+  'fantasy',
+  'erotica',
+  'comedy',
+  '18+',
+  'harry potter',
+  'lotr',
+  'lord of the rings', 'fantasy',
+  'erotica',
+  'comedy',
+  '18+',
+  'harry potter',
+  'lotr',
+  'lord of the rings',
 ];

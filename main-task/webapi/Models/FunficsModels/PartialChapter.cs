@@ -5,22 +5,20 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace webapi.Models.DbModels
+namespace webapi.Models.FunficsModels
 {
-    public class Chapter
+    public class PartialChapter
     {
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Required funficId")]
         public string FunficId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Required number")]
         public int Number { get; set; }
 
-        [MaxLength(50)]
-        [Required]
+        [Required(ErrorMessage = "Required name")]
         public string Name { get; set; }
 
         public string Text { get; set; }

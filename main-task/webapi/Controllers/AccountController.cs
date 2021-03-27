@@ -109,6 +109,8 @@ namespace webapi.Controllers
                 return BadRequest(new RegistrationResponseModel { Errors = errors });
             }
 
+            await _userManager.AddToRoleAsync(await _userManager.FindByNameAsync(user.UserName), "user");
+
             return StatusCode(201, new RegistrationResponseModel { IsSuccessfulRegistration = true });
         }
 
@@ -124,6 +126,7 @@ namespace webapi.Controllers
                     user = new User { Email = email, UserName = name };
                     await _userManager.CreateAsync(user);
                     await _userManager.AddLoginAsync(user, info);
+                    await _userManager.AddToRoleAsync(await _userManager.FindByNameAsync(user.UserName), "user");
                 }
                 else
                 {
