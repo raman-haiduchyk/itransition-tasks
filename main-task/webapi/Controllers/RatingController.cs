@@ -33,6 +33,19 @@ namespace webapi.Controllers
             return StatusCode(200, tags);
         }
 
+        [Authorize]
+        [HttpPost("myrating")]
+        public async Task<IActionResult> GetMyRating(RatingRequestModel ratingRequest)
+        {
+            var user = await _userManager.FindByNameAsync(User.Identity.Name); ;
+            var rating = _appDbContext.Ratings
+                .FirstOrDefault(rating => rating.UserId == user.Id && rating.FunficId == ratingRequest.Id);
+
+            if (rating == null) return StatusCode(400);
+
+            return StatusCode(200, new { rating = rating.StarsCount });
+        }
+
         [HttpPost("comments")]
         public async Task<IActionResult> GetComments(RatingRequestModel commentsRequest)
         {
