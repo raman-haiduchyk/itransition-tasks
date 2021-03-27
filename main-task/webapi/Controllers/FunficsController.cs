@@ -75,7 +75,7 @@ namespace webapi.Controllers
                 .ToList()
                 .ForEach(chapter =>
                 {
-                    var chapterIndex = existingFunfic.Chapters.FindIndex(c => c.Id == chapter.Id && chapter.Id != null);
+                    int chapterIndex = existingFunfic.Chapters.FindIndex(c => c.Id == chapter.Id && chapter.Id != null);
                     if (chapterIndex != -1)
                     {
                         existingFunfic.Chapters[chapterIndex].Name = chapter.Name;
@@ -114,7 +114,7 @@ namespace webapi.Controllers
         [HttpGet("getmy")]
         public async Task<IActionResult> GetMy()
         {
-            var id = (await _userManager.FindByNameAsync(User.Identity.Name)).Id;
+            string id = (await _userManager.FindByNameAsync(User.Identity.Name)).Id;
 
             var funfics = _appDbContext.Funfics
                 .Include(f => f.Chapters)
