@@ -62,7 +62,10 @@ namespace webapi.Controllers
                 .ToList()
                 .ForEach(tag =>
                 {
-                    existingFunfic.Tags.Add(new Tag() { Name = tag });                
+                    var existingTag = _appDbContext.Tags.FirstOrDefault(t => t.Name == tag);
+                    if (existingTag == null) existingFunfic.Tags.Add(new Tag() { Name = tag });
+                    else existingFunfic.Tags.Add(existingTag);    
+                                
                 });
 
             //deleting unnecessary chapters
