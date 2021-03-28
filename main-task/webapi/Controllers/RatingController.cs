@@ -41,7 +41,7 @@ namespace webapi.Controllers
             var rating = _appDbContext.Ratings
                 .FirstOrDefault(rating => rating.UserId == user.Id && rating.FunficId == ratingRequest.Id);
 
-            if (rating == null) return StatusCode(400);
+            if (rating == null) return StatusCode(200, new { rating = 0 });
 
             return StatusCode(200, new { rating = rating.StarsCount });
         }
@@ -76,13 +76,35 @@ namespace webapi.Controllers
 
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
 
-            byte currentRating = funfic.Rating;
-            int currentCount = funfic.ScoreCount;
+            var rating = _appDbContext.Ratings
+                .FirstOrDefault(rating => rating.FunficId == ratingRequest.Id && rating.UserId == user.Id);
 
-            byte newRating = (byte)((currentRating * currentCount + ratingRequest.Stars) / (currentCount + 1));
+            byte newRating = funfic.Rating;
 
-            funfic.ScoreCount++;
-            funfic.Rating = newRating;
+            if (rating == null)
+            {
+                await _appDbContext.Ratings.AddAsync(new Rating
+                {
+                    FunficId = ratingRequest.Id,
+                    StarsCount = (byte)ratingRequest.Stars,
+                    UserId = user.Id
+                });
+
+                byte currentRating = funfic.Rating;
+                int currentCount = funfic.ScoreCount;
+
+                newRating = (byte)((currentRating * currentCount + ratingRequest.Stars) / (currentCount + 1));
+
+                funfic.ScoreCount++;
+                funfic.Rating = newRating;
+            } 
+            else
+            {
+                byte prevStarsCount = rating.StarsCount;
+                newRating = (byte)((funfic.Rating * funfic.ScoreCount + ratingRequest.Stars - prevStarsCount) / funfic.ScoreCount);
+                funfic.Rating = newRating;
+                rating.StarsCount = (byte)ratingRequest.Stars;
+            }
 
             try
             {
@@ -93,7 +115,7 @@ namespace webapi.Controllers
                 return StatusCode(409);
             }
 
-            return StatusCode(200);
+            return StatusCode(200, new { rating = newRating });
 
         }
 
@@ -106,12 +128,14 @@ namespace webapi.Controllers
 
             if (funfic == null) return StatusCode(404, "No such funfic");
 
+            var date = DateTime.Now;
+
             await _appDbContext.Comments.AddAsync(new Comment
             {
                 FunficId = createCommentRequest.Id,
                 UserId = user.Id,
                 Text = createCommentRequest.Text,
-                Date = DateTime.Now
+                Date = date
             });
 
             try
@@ -123,7 +147,12 @@ namespace webapi.Controllers
                 return StatusCode(409);
             }
 
-            return StatusCode(200);
+            return StatusCode(200, new
+            {
+                author = user.UserName,
+                text = createCommentRequest.Text,
+                createdAt = date
+            });
         }
     }
 }
