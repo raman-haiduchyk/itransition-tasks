@@ -45,6 +45,7 @@ namespace webapi.Controllers
             {
                 return Unauthorized("Invalid tokens");
             }
+            if (user.IsBanned) return Unauthorized("Banned");
 
             var newAccessToken = await _jwtHandler.GenerateAccessToken(user);
             var newRefreshToken = _jwtHandler.GenerateRefreshToken();
