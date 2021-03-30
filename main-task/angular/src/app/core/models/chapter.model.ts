@@ -1,8 +1,7 @@
 export interface Chapter {
-  id: string;
+  id?: string;
   funficId: string;
   number: number;
   name: string;
   text: string;
-  picture?: string;
 }

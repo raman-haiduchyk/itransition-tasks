@@ -61,8 +61,8 @@ export class FilterBlockComponent implements AfterViewInit {
     : this.viewsArrowChar = '🠇';
   }
 
-  public changeSpecFilterState(options: MatListOption[]): void {
-    // this.filterService.changeSpecFilter(options.map(opt => opt.value));
+  public changeTagsFilterState(tags: string[]): void {
+    this.filterService.changeTagsFilter([...tags]);
   }
 
 }

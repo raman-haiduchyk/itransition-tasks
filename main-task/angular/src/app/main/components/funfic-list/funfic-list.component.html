@@ -5,13 +5,28 @@
     <app-filter-block></app-filter-block>
   </mat-sidenav>
 
-  <mat-sidenav-content class="content" fxLayout="column" fxLayoutAlign="auto center" fxLayoutGap="10px">
+  <div class="spiner" *ngIf="!funfics" fxLayout="column" fxLayoutAlign="center center">
+    <mat-spinner></mat-spinner>
+  </div>
 
-    <button class="toggle-button" mat-stroked-button (click)="sidenav.toggle()" fxHide.gt-xs>Chapters</button>
-    <app-funfic-card *ngFor="let funfic of funfics$ | async"
+  <mat-sidenav-content
+    *ngIf="funfics | filter : dateFilterState : scoreFilterState : viewsFilterState : wordFilterState : tagsFilterState as filteredFunfics"
+    class="content" fxLayout="column" fxLayoutAlign="auto center" fxLayoutGap="10px">
+
+    <button class="toggle-button" mat-stroked-button (click)="sidenav.toggle()" fxHide.gt-xs>Filters</button>
+
+    <app-funfic-card *ngFor="let funfic of filteredFunfics | slice : pageIndex * pageSize : (pageIndex + 1) * pageSize"
       [funficInfo]="funfic"
-      [itemId]="funfic.id"
-    ></app-funfic-card>
+      [itemId]="funfic.id" >
+    </app-funfic-card>
+
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 15, 20]"
+      [pageIndex]="pageIndex"
+      (page)="onPage($event)"
+      [length]="filteredFunfics.length">
+    </mat-paginator>
+
   </mat-sidenav-content>
 
 </mat-sidenav-container>

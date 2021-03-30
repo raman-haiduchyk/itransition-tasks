@@ -2,18 +2,18 @@
 // tslint:disable-next-line: typedef
 export const modules = {
   toolbar: [
-    ['bold', 'italic'],        // toggled buttons
+    ['bold', 'italic'],
     ['blockquote'],
 
-    [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+    [{ 'indent': '-1'}, { 'indent': '+1' }],
+
+    [{ 'header': 1 }, { 'header': 2 }],
     [{ 'list': 'ordered'}, { 'list': 'bullet' }],
 
-    [{ 'size': ['small', false, 'large'] }],  // custom dropdown
-    [{ 'header': [1, 2, 3, false] }],
+    [{ 'size': ['small', false, 'large'] }],
 
     [{ 'color': [] }],
     [{ 'align': [] }],
-    ['clean'],
-    ['image']
+    ['clean']
   ]
 };

@@ -1,6 +1,5 @@
-<div class='chap'>
+<div class='chap' *ngIf="chapter">
   <h2>{{chapter.name}}</h2>
-  <p>
-    {{chapter.text}}
-  </p>
+
+  <quill-view-html [content]="chapter.text"></quill-view-html>
 </div>

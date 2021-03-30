@@ -58,8 +58,8 @@ export class FilterService {
     this.onFilterChange.emit([this.dateFilter, this.scoreFilter, this.wordFilter, this.tagsFilter, this.viewsFilter]);
   }
 
-  public changeTagsFilter(specializations: string[]): void {
-    this.tagsFilter = specializations;
+  public changeTagsFilter(tags: string[]): void {
+    this.tagsFilter = tags;
     this.onFilterChange.emit([this.dateFilter, this.scoreFilter, this.wordFilter, this.tagsFilter, this.viewsFilter]);
   }
 }

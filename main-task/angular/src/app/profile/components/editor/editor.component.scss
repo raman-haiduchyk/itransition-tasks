@@ -6,13 +6,22 @@
   margin-top: 10px;
 }
 
+.headline.mat-form-field {
+  font-size: 16px;
+}
+
+.description {
+  textarea {
+    min-height: 100px;
+  }
+}
+
 .content {
   overflow: auto;
   height: 100%;
 }
 
 .toggle-button {
-  white-space: normal;
   @media screen and (max-width: 600px){ width: 100%;;}
 }
 
@@ -24,11 +33,33 @@
 }
 
 quill-editor {
-  height: calc(100% - 48px);
+  height: calc(100% - 89px);
   width: 100%;
   @media screen and (min-width: 600px) {
-    height: calc(100% - 48px - 36px);
+    height: calc(100% - 89px - 36px);
   }
+}
+
+.handle{
+  position: absolute;
+  right: 5px;
+  color: #ccc;
+}
+
+.spinner{
+  width: 100%;
+  height: 100%;
+}
+
+.delete-handle {
+  bottom: 5px;
+  height: 24px;
+  width: 24px;
+}
+
+.move-handle{
+  top: 5px;
+  cursor: move;
 }
 
 .editor {
@@ -55,13 +86,14 @@ quill-editor {
 }
 
 .chapter {
-  padding: 20px 10px;
+  span{
+    padding-bottom: 5px;
+    padding-right: 10px;
+  }
+  .mat-form-field { width: 220px;}
+  padding: 5px 10px;
   border-bottom: solid 1px #ccc;
   color: rgba(0, 0, 0, 0.87);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
   box-sizing: border-box;
   cursor: pointer;
   background: white;

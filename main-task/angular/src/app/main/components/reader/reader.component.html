@@ -1,13 +1,14 @@
 <mat-sidenav-container class="nav-container mat-elevation-z2">
 
-  <mat-sidenav #sidenav [mode]="mode" [opened]="opened">
-    <mat-nav-list class="list" *ngIf="funfic && funfic.chapters">
+  <mat-sidenav #sidenav [mode]="mode" [opened]="opened" fxLayout="column">
+    <mat-nav-list class="list" *ngIf="funfic && funfic.chapters" >
       <button mat-icon-button (click)="sidenav.toggle()" fxHide.gt-xs><mat-icon>close</mat-icon></button>
       <h2>Chapters:</h2>
       <a mat-list-item *ngFor="let chap of funfic.chapters; let i = index" (click)="setChapter(i)">{{chap.name}}
         <mat-divider></mat-divider>
       </a>
     </mat-nav-list>
+    <button mat-stroked-button class="edit-button" *ngIf="isOwner" (click)="editFunfic(funfic.id)">Edit Funfic</button>
   </mat-sidenav>
 
 
@@ -28,18 +29,20 @@
           [readOnly]="true"
         ></star-rating>
         <star-rating
+          *ngIf="isAuthorized"
           [labelText]="'Your score'"
           [starType]="'svg'"
           [rating]="rating"
           [showHalfStars]="true"
           [hoverEnabled]="true"
-          (ratingChange)="onRatingChange($event)"
+          [disabled]="isRatingUpdating"
+          (starClickChange)="onRatingChange($event)"
         ></star-rating>
       </div>
 
-      <app-chapter [chapter]="funfic.chapters[currentChapter]"></app-chapter>
+      <app-chapter [chapter]="funfic.chapters[currentChapter]" fxFlexAlign="start"></app-chapter>
       <mat-divider></mat-divider>
-      <app-comments [funficId]="funfic.id"></app-comments>
+      <app-comments [isAuthorized]="isAuthorized" [funficId]="funfic.id"></app-comments>
     </div>
   </mat-sidenav-content>
 

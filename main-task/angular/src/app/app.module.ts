@@ -22,9 +22,12 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
     JwtModule.forRoot({
       config: {
-        tokenGetter: () => { return localStorage.getItem('accessToken'); },
-        allowedDomains: [environment.urlAddress, 'localhost:44363'],
-        throwNoTokenError: true,
+        tokenGetter: () => {
+          const token: string = localStorage.getItem('accessToken');
+          return  token;
+        },
+        allowedDomains: [environment.urlAddress, 'itransition-webapi.azurewebsites.net'],
+        throwNoTokenError: false,
       }
     }),
     CoreModule,
@@ -39,19 +42,13 @@ import { HttpClientModule } from '@angular/common/http';
           {
             id: GoogleLoginProvider.PROVIDER_ID,
             provider: new GoogleLoginProvider(
-              '5268472071-5kj8krk5vu9hiqtls7pahp07sbhhg8jj.apps.googleusercontent.com'
+              '5268472071-3hab7jes8h907eqo50fccfqgl5jgcoqv.apps.googleusercontent.com'
             )
           },
           {
             id: FacebookLoginProvider.PROVIDER_ID,
             provider: new FacebookLoginProvider(
               '887024055414938'
-            )
-          },
-          {
-            id: MicrosoftLoginProvider.PROVIDER_ID,
-            provider: new MicrosoftLoginProvider(
-              'beff7eb0-68e1-4b8d-a2b6-65d94efbd1fc'
             )
           }
         ]

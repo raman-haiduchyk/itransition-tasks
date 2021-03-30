@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ForbiddenComponent } from './core/components/forbidden/forbidden.component';
+import { NotFoundComponent } from './core/components/not-found/not-found.component';
 import { AdminGuard } from './core/guards/admin.guard';
 import { AuthGuard } from './core/guards/auth.guard';
 
@@ -20,7 +21,9 @@ const routes: Routes = [
     canActivate: [AuthGuard, AdminGuard]
   },
   { path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) },
-  { path: 'forbidden', component: ForbiddenComponent }
+  { path: 'forbidden', component: ForbiddenComponent },
+  { path: 'not-found', component: NotFoundComponent},
+  { path: '**', redirectTo: 'not-found'}
 ];
 
 @NgModule({

@@ -7,34 +7,29 @@
   <mat-card-content fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="40px">
     <div class="info" fxLayout="column">
       <h2>Info: </h2>
-      <mat-form-field>
-        <mat-label>Username</mat-label>
-        <input matInput type="text" [(ngModel)]="profile.name">
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Email</mat-label>
-        <input matInput type="text" [(ngModel)]="profile.email">
-      </mat-form-field>
-      <mat-form-field>
+      <mat-form-field  appearance="outline">
         <mat-label>Phone</mat-label>
         <input matInput type="text" [(ngModel)]="profile.phone">
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field  appearance="outline">
         <mat-label>First Name</mat-label>
         <input matInput type="text" [(ngModel)]="profile.firstName">
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>Last Name</mat-label>
         <input matInput type="text" [(ngModel)]="profile.lastName">
       </mat-form-field>
-      <button mat-stroked-button>Confirm changes</button>
+      <button mat-stroked-button (click)="onProfileChanges()" [disabled]="isChangeDisabled">Confirm changes</button>
     </div>
 
     <div class="funfics">
       <h2>Works:
-        <button mat-mini-fab (click)="openEditor()"><mat-icon>add</mat-icon></button>
+        <button mat-mini-fab (click)="openEditor()" [disabled]="isChangeDisabled"><mat-icon>add</mat-icon></button>
       </h2>
-      <app-works-table></app-works-table>
+      <div class="spiner" *ngIf="!funfics" fxLayout="column" fxLayoutAlign="center center">
+        <mat-spinner></mat-spinner>
+      </div>
+      <app-works-table *ngIf="funfics" [sourceFunfics]="funfics" (delete)="onDelete($event)"></app-works-table>
     </div>
 
   </mat-card-content>

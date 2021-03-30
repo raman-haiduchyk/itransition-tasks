@@ -1,0 +1,21 @@
+<h1 mat-dialog-title>{{data.name}}</h1>
+<div mat-dialog-content>
+  Info:
+  <ul>
+    <li *ngIf="data.firstName">
+      Firstname: {{data.firstName}}
+    </li>
+    <li *ngIf="data.lastName">
+      Lastname: {{data.lastName}}
+    </li>
+    <li *ngIf="data.email">
+      Email: {{data.email}}
+    </li>
+    <li *ngIf="data.phone">
+      Phone: {{data.phone}}
+    </li>
+    <li *ngIf="data.role">
+      Role: {{data.role}}
+    </li>
+  </ul>
+</div>

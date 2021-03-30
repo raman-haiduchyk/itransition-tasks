@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { PageEvent } from '@angular/material/paginator';
 import { Observable } from 'rxjs';
 import { Funfic } from 'src/app/core/models/funfic.model';
 import { RequestService } from 'src/app/core/services/request.service';
-import { mockedResponse } from '../../../core/mocked/response';
+import { ErrorDialogComponent } from 'src/app/shared/components/error-dialog/error-dialog.component';
 import { FilterService } from '../../services/filter.service';
 
 @Component({
@@ -12,27 +14,28 @@ import { FilterService } from '../../services/filter.service';
 })
 export class FunficListComponent implements OnInit {
 
-  public funfics$: Observable<Funfic[]>;
+  public funfics: Funfic[];
 
   public dateFilterState: boolean = null;
-  public salaryFilterState: boolean = null;
+  public scoreFilterState: boolean = null;
   public wordFilterState: string = null;
-  public specFilterState: string[] = [];
-  public minSalaryFilterState: number = 0;
+  public tagsFilterState: string[] = [];
+  public viewsFilterState: boolean = null;
 
+  public pageIndex: number = 0;
+  public pageSize: number = 5;
   public mode: string;
   public opened: boolean;
 
-  constructor(private filterService: FilterService, private requestService: RequestService) {
+  constructor(private filterService: FilterService, private requestService: RequestService, private dialog: MatDialog) {
     filterService.onFilterChange.subscribe((filters) => {
       this.dateFilterState = filters[0];
-      this.salaryFilterState = filters[1];
+      this.scoreFilterState = filters[1];
       this.wordFilterState = filters[2];
-      this.specFilterState = filters[3];
-      this.minSalaryFilterState = filters[4];
+      this.tagsFilterState = filters[3];
+      this.viewsFilterState = filters[4];
+      this.pageIndex = 0;
     });
-
-    this.funfics$ = requestService.getFunficResponse();
    }
 
   private checkInnerWidth(): void {
@@ -51,5 +54,15 @@ export class FunficListComponent implements OnInit {
     window.onresize = () => {
       this.checkInnerWidth();
     };
+
+    this.requestService.getFunficResponse('funfics/getall').subscribe(
+      res => this.funfics = res,
+      err => this.dialog.open(ErrorDialogComponent)
+    );
+  }
+
+  public onPage($event: PageEvent): void {
+    this.pageSize = $event.pageSize;
+    this.pageIndex = $event.pageIndex;
   }
 }

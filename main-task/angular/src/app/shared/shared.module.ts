@@ -24,8 +24,19 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatRippleModule } from '@angular/material/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDialogModule } from '@angular/material/dialog';
+import { TagInputComponent } from './components/tag-input/tag-input.component';
+import { ErrorDialogComponent } from './components/error-dialog/error-dialog.component';
+import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
+import { WorksTableComponent } from './components/works-table/works-table.component';
+import { CreateDialogComponent } from './components/create-dialog/create-dialog.component';
 @NgModule({
-  declarations: [],
+  declarations: [
+    TagInputComponent,
+    DeleteDialogComponent,
+    ErrorDialogComponent,
+    CreateDialogComponent,
+    WorksTableComponent
+  ],
   imports: [
     CommonModule,
     MatInputModule,
@@ -76,7 +87,12 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatTooltipModule,
     FlexLayoutModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TagInputComponent,
+    DeleteDialogComponent,
+    ErrorDialogComponent,
+    CreateDialogComponent,
+    WorksTableComponent
   ]
 })
 export class SharedModule { }

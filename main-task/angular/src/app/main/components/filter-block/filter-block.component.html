@@ -4,13 +4,10 @@
     <button mat-stroked-button color='primary' (click)="changeScoreFilterState()">Rating{{scoreArrowChar}}</button>
     <button mat-stroked-button color='primary' (click)="changeViewsFilterState()">Score count{{viewsArrowChar}}</button>
 
-    <mat-form-field class="filter-input">
-      <mat-label>Name, description or genre</mat-label>
-      <input matInput id="filter-word-input" autocomplete="off" >
-    </mat-form-field>
+    <app-tag-input (tagsChange)="changeTagsFilterState($event)"></app-tag-input>
 
     <mat-form-field class="filter-input" appearance="outline">
-      <mat-label>Tags</mat-label>
+      <mat-label>Name, description, genre</mat-label>
       <input matInput id="filter-word-input" autocomplete="off" >
     </mat-form-field>
   </div>

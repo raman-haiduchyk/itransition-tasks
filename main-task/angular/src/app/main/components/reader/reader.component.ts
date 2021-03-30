@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RatingChangeEvent } from 'angular-star-rating';
+import { ClickEvent, RatingChangeEvent } from 'angular-star-rating';
 import { Subscription } from 'rxjs';
-import { Chapter } from 'src/app/core/models/chapter.model';
 import { Funfic } from 'src/app/core/models/funfic.model';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { RequestService } from 'src/app/core/services/request.service';
+import { ErrorDialogComponent } from 'src/app/shared/components/error-dialog/error-dialog.component';
 
 @Component({
   selector: 'app-detailed-info',
@@ -17,13 +18,21 @@ export class ReaderComponent implements OnInit {
 
   public funfic: Funfic;
   public currentChapter: number = 0;
-  public rating: number = 3;
+  public rating: number = 0;
 
   public mode: string;
   public opened: boolean;
 
+  public isOwner: boolean;
+  public isAuthorized: boolean;
+  public isRatingUpdating: boolean = false;
+
   constructor(
-    private route: ActivatedRoute, private router: Router, private requestService: RequestService
+    private route: ActivatedRoute,
+    private router: Router,
+    private requestService: RequestService,
+    private authService: AuthService,
+    private dialog: MatDialog
   ) { }
 
   private checkInnerWidth(): void {
@@ -40,10 +49,27 @@ export class ReaderComponent implements OnInit {
 
     this.route.params.subscribe(
       params => {
-        this.requestService.getFunficByIdResponse(params.id).subscribe(funfic => {
-          this.funfic = funfic;
-          this.requestService.getChaptersResponse(params.id).subscribe(chapters => this.funfic.chapters = chapters);
-        });
+        this.requestService.getFunficByIdResponse('funfics/get', params.id).subscribe(
+          funfic => {
+            this.funfic = funfic;
+            if (this.funfic.chapters.length) {
+              this.funfic.chapters.sort((a, b) => {
+                return a.number - b.number;
+              });
+            }
+            this.isAuthorized = this.authService.isUserAuthenticated() || this.authService.isUserPotentialAuthenticated();
+            this.isOwner = this.authService.isBelongToUser(this.funfic.author) || this.authService.isUserAdmin();
+            if (this.isAuthorized) {
+              this.requestService.getRatingResponse('rating/myrating', funfic.id).subscribe(
+                res => {
+                  this.rating = res.rating;
+                },
+                err => console.log(err)
+              );
+            }
+          },
+          err => this.dialog.open(ErrorDialogComponent)
+        );
       }
     );
 
@@ -58,8 +84,26 @@ export class ReaderComponent implements OnInit {
     this.currentChapter = index;
   }
 
-  public onRatingChange(event$: RatingChangeEvent): void {
-    console.log(event$.rating);
+  public onRatingChange($event: ClickEvent): void {
+    if ($event.rating !== this.rating) {
+      this.isRatingUpdating = true;
+
+      this.requestService.setRatingResponse('rating/rating', this.funfic.id, $event.rating).subscribe(
+        res => {
+          this.isRatingUpdating = false;
+          this.rating = $event.rating;
+          this.funfic.rating = res.rating;
+        },
+        err => {
+          this.isRatingUpdating = false;
+          this.dialog.open(ErrorDialogComponent);
+        }
+      );
+    }
+  }
+
+  public editFunfic(id: string): void {
+    this.router.navigate(['profile', 'editor', id]);
   }
 
 }

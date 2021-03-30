@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Job } from 'src/app/core/models/job.model';
+import { Funfic } from 'src/app/core/models/funfic.model';
 
 @Pipe({
   name: 'filter'
@@ -7,12 +7,13 @@ import { Job } from 'src/app/core/models/job.model';
 export class FilterPipe implements PipeTransform {
 
   public transform(
-    items: Job[],
+    items: Funfic[],
     dateFilter: boolean,
-    salaryFilter: boolean,
+    scoreFilter: boolean,
+    viewsFilter: boolean,
     wordFilter: string,
-    specFilter: string[],
-    minSalaryFilter: number): Job[] {
+    tagsFilter: string[]
+    ): Funfic[] {
 
     if (items != null) {
       if (dateFilter != null) {
@@ -22,28 +23,34 @@ export class FilterPipe implements PipeTransform {
           return dateFilter ? dateB - dateA : dateA - dateB;
         });
 
-      } else if (salaryFilter != null) {
+      } else if (viewsFilter != null) {
         items.sort((a, b) => {
-          let viewCountA: number = Number(a.salary);
-          let viewCountB: number = Number(b.salary);
-          return salaryFilter ? viewCountA - viewCountB : viewCountB - viewCountA;
+          let viewCountA: number = a.scoreCount;
+          let viewCountB: number = b.scoreCount;
+          return viewsFilter ? viewCountA - viewCountB : viewCountB - viewCountA;
+        });
+
+      } else if (scoreFilter != null) {
+        items.sort((a, b) => {
+          let rateA: number = a.rating;
+          let rateB: number = b.rating;
+          return scoreFilter ? rateA - rateB : rateB - rateA;
         });
       }
 
       if (wordFilter) {
         items = items.filter(
-          item =>
-            item.name.toLowerCase().includes(wordFilter.toLowerCase()) ||
-            item.company.name.toLowerCase().includes(wordFilter.toLowerCase()));
+          item => {
+            const genre: boolean = item.genre ? item.genre.toLowerCase().includes(wordFilter.toLowerCase()) : false;
+            const descr: boolean = item.shortDescription ? item.shortDescription.toLowerCase().includes(wordFilter.toLowerCase()) : false;
+            return item.name.toLowerCase().includes(wordFilter.toLowerCase()) || genre || descr;
+          });
       }
 
-      if (specFilter && specFilter.length) {
-        items = items.filter(item => specFilter.includes(item.specialization.toLowerCase()));
+      if (tagsFilter && tagsFilter.length) {
+        items = items.filter(item => tagsFilter.every(tag => item.tags.includes(tag.toLowerCase())));
       }
 
-      if (minSalaryFilter) {
-        items = items.filter (item => item.salary >= minSalaryFilter);
-      }
     }
     return items;
   }

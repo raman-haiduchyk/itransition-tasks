@@ -11,10 +11,6 @@ import { AuthService } from './auth.service';
 export class ErrorHandlerService implements HttpInterceptor {
 
   // TODO: parallel processing of refresh requests and avoiding refresh loops
-  public refreshTokenInProgress: boolean = false;
-
-  public tokenRefreshedSource: Subject<boolean> = new Subject();
-  public tokenRefreshed$: Observable<boolean> = this.tokenRefreshedSource.asObservable();
 
   constructor(private router: Router, private authService: AuthService, private http: HttpClient) { }
 
@@ -33,34 +29,31 @@ export class ErrorHandlerService implements HttpInterceptor {
   // tslint:disable: no-any typedef
   private handleUnauthorized(error: HttpErrorResponse, req: HttpRequest<any>): Observable<any> {
     if (this.authService.isUserPotentialAuthenticated()) {
-      console.log('interceptor refreshing');
-      return this.authService.refreshToken('token/refresh').pipe(
-        switchMap((result) => {
-          if (!result) {
-            return throwError(error);
-          }
-          const newReq = req.clone({
-            setHeaders: {
-              Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        if (this.authService.isRefreshTokenInProgress) { return throwError(error); }
+        return this.authService.refreshToken('token/refresh').pipe(
+          switchMap((result) => {
+            if (!result) {
+              return throwError(error);
             }
-          });
-          return of(newReq);
-        }),
-        catchError(_ => {
-          this.router.navigate(['/auth/login'], { queryParams: { returnUrl: this.router.url }});
-          return throwError(error);
-        }));
-
+            const newReq = req.clone({
+              setHeaders: {
+                Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+              }
+            });
+            return of(newReq);
+          }),
+          catchError(_ => {
+            return throwError(error);
+          })
+        );
     } else {
-      if (!this.router.url.startsWith('/auth/login')) {
-        this.router.navigate(['/auth/login'], { queryParams: { returnUrl: this.router.url }});
-        return throwError(error);
-      }
+      this.router.navigate(['/auth/login'], { queryParams: { returnUrl: this.router.url }});
+      return throwError(error);
     }
   }
 
   private handleNotFound(error: HttpErrorResponse): void {
-    this.router.navigate(['notfound']);
+    this.router.navigate(['not-found']);
   }
 
   // tslint:disable: no-any
@@ -68,9 +61,14 @@ export class ErrorHandlerService implements HttpInterceptor {
     return next.handle(req)
     .pipe(
       catchError((error: HttpErrorResponse) => {
-        if (error.status === 401) {
+        if (error.status === 401 && !this.router.url.startsWith('/auth/login')) {
           return this.handleUnauthorized(error, req).pipe(
-            switchMap((request) => next.handle(request))
+            switchMap((request) => next.handle(request)),
+            catchError(_ => {
+              this.authService.logout();
+              this.router.navigate(['/auth/login'], { queryParams: { returnUrl: this.router.url }});
+              return throwError(error);
+            })
           );
         } else {
           this.handleOtherErrors(error);

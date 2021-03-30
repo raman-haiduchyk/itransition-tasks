@@ -25,6 +25,11 @@ export class AuthService {
   private authChangeSub: Subject<boolean> = new Subject<boolean>();
   public authChanged: Observable<boolean> = this.authChangeSub.asObservable();
 
+  public isRefreshTokenInProgress: boolean = false;
+
+  public tokenRefreshedSub: Subject<boolean> = new Subject();
+  public tokenRefreshed$: Observable<boolean> = this.tokenRefreshedSub.asObservable();
+
   constructor(
     private http: HttpClient, private jwtHelper: JwtHelperService, private externalAuthService: SocialAuthService, private router: Router
     ) { }
@@ -66,26 +71,34 @@ export class AuthService {
   }
 
   public refreshToken(route: string): Observable<boolean> {
+
     const accessToken: string = localStorage.getItem('accessToken');
     const refreshToken: string = localStorage.getItem('refreshToken');
     const tokens: Tokens = {accessToken: accessToken, refreshToken: refreshToken };
-    return this.http.post<Tokens>(this.createCompleteRoute(route, this.url), tokens).pipe(
-      switchMap((res) => {
-        console.log('refreshed');
-        console.log(res);
-        localStorage.setItem('accessToken', res.accessToken);
-        localStorage.setItem('refreshToken', res.refreshToken);
-        this.sendAuthStateChangeNotification(true);
-        return of(true);
-      }),
-      catchError((error) => {
-        console.log('not refreshed');
-        console.log(error);
-        this.sendAuthStateChangeNotification(false);
-        this.router.navigate(['auth/login'], { queryParams: { returnUrl: this.router.url } });
-        return of(false);
-      })
-    );
+
+    if (!this.isRefreshTokenInProgress) {
+      this.isRefreshTokenInProgress = true;
+      return this.http.post<Tokens>(this.createCompleteRoute(route, this.url), tokens).pipe(
+        switchMap((res) => {
+          localStorage.setItem('accessToken', res.accessToken);
+          localStorage.setItem('refreshToken', res.refreshToken);
+          this.sendAuthStateChangeNotification(true);
+          this.tokenRefreshedSub.next(true);
+          this.isRefreshTokenInProgress = false;
+          return of(true);
+        }),
+        catchError((error) => {
+          this.sendAuthStateChangeNotification(false);
+          this.logout();
+          this.router.navigate(['auth/login'], { queryParams: { returnUrl: this.router.url } });
+          this.tokenRefreshedSub.next(false);
+          this.isRefreshTokenInProgress = false;
+          return of(false);
+        })
+      );
+    } else {
+      return this.tokenRefreshed$;
+    }
   }
 
   public logout(): void {
@@ -115,5 +128,21 @@ export class AuthService {
     const decodedToken: string = this.jwtHelper.decodeToken(token);
     const role: string = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
     return role === 'admin';
+  }
+
+  public isBelongToUser(name: string): boolean {
+    const token: string = localStorage.getItem('accessToken');
+    if (!token) { return false; }
+    const decodedToken: string = this.jwtHelper.decodeToken(token);
+    const userName: string = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'];
+    return userName === name;
+  }
+
+  public getUserName(): string {
+    const token: string = localStorage.getItem('accessToken');
+    if (!token) { return null; }
+    const decodedToken: string = this.jwtHelper.decodeToken(token);
+    const userName: string = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'];
+    return userName;
   }
 }

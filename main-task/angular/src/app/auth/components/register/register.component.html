@@ -13,7 +13,7 @@
     <mat-form-field>
       <input matInput placeholder="Confirm Password" formControlName="confirmPassword" type='password'>
     </mat-form-field>
-    <button type="submit" mat-raised-button [disabled]="registerForm.invalid" >Submit</button>
+    <button type="submit" mat-raised-button [disabled]="registerForm.invalid || isLoading" >Submit</button>
   </form>
   <br>
   <div class="alert alert-danger" role="alert">
@@ -21,5 +21,5 @@
   </div>
   <mat-divider></mat-divider>
   <br>
-  <a href="/auth/login">Login</a>
+  <button mat-button (click)="onRedirect()" [disabled]="isLoading">Login</button>
   </mat-card>

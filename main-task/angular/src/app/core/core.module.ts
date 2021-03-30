@@ -9,15 +9,17 @@ import { AuthService } from './services/auth.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ErrorHandlerService } from './services/error-handler.service';
 import { ForbiddenComponent } from './components/forbidden/forbidden.component';
-import { UserService } from '../admin/services/user.service';
 import { AuthGuard } from './guards/auth.guard';
 import { AdminGuard } from './guards/admin.guard';
+import { ProfileService } from './services/profile.service';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 @NgModule({
   declarations: [
     HeaderComponent,
     FooterComponent,
     ForbiddenComponent,
+    NotFoundComponent,
   ],
   imports: [
     CommonModule,
@@ -28,9 +30,12 @@ import { AdminGuard } from './guards/admin.guard';
     HeaderComponent,
     FooterComponent,
     ForbiddenComponent,
+    NotFoundComponent,
   ],
   providers: [
     RequestService,
+    ErrorHandlerService,
+    ProfileService,
     AuthGuard,
     AdminGuard,
     AuthService,
